@@ -1,0 +1,14 @@
+body {
+  margin: 0;
+}
+
+#bunnyspace {
+  background-image: url("./images/grass.jpg");
+  height: 100vh;
+}
+
+.rabbit {
+  position: absolute;
+  cursor: pointer;
+  min-height: 10%;
+}

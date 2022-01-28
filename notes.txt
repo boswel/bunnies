@@ -1,0 +1,14 @@
+1) load picture of rabbit randomly on the screen (http://www.pngmart.com/files/1/Easter-Rabbit-PNG-HD-224x279.png); position: absolute, top, left, vh & vw
+2) js -> onlick event for rabbit to generate more rabbits that also appear randomly on the screen and are also clickable to generate more rabbits
+
+
+
+a) set background to grass
+a2) setup html, place single image of rabbit in default position
+b) use css to position rabbit where I want 
+c) have js generate image instead of static html
+d) have js generate css for that specific rabbit (by accessing the style property of the element)
+e) inject random numbers into css for that specific rabbit
+f) make generating the rabbit a reusable function
+f2) associate function with an event listener onclick rabbit
+g) create event listener in the function that generates rabbits
