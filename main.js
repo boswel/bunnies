@@ -23,5 +23,5 @@ function generateRabbit() {
   image.style.left = (rightmostPosition * Math.random()) + "px";
  
   image.style.zIndex = Math.floor(scalingFactor * lowestPosition);
-  image.style.filter = "blur(" + ((1 - scalingFactor) * maxBunnyHeight * 0.004) + "px)";
+  image.style.filter = "blur(" + ((1 - scalingFactor) * 2) + "px)";
 }
