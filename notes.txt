@@ -12,3 +12,16 @@ e) inject random numbers into css for that specific rabbit
 f) make generating the rabbit a reusable function
 f2) associate function with an event listener onclick rabbit
 g) create event listener in the function that generates rabbits
+
+
+
+
+rabbits remove when offscreen
+
+better pop sound
+countdown 30 s (or so)
+
+
+Foto von Kellie Churchman von Pexels
+https://www.pexels.com/de-de/foto/foto-von-grunem-gras-1001676/
+https://www.pexels.com/de-de/foto/grunes-gras-56011/

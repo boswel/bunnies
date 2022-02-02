@@ -3,12 +3,116 @@ body {
 }
 
 #bunnyspace {
-  background-image: url("./images/grass.jpg");
+  background-image: url("./images/grass3c.jpg");
   height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+  position: relative;
+}
+
+.textbox {
+  background-color: cornsilk;
+  padding: 10px;
+  position: absolute;
+  border: darkgreen solid;
+}
+
+#counter {
+  top: 2%;
+  left: 2%;
+}
+
+#start {
+  /*actually, I want it on top of the first life - but that has position absolute */
+  top: 70%;
+  left: 67%;
+  animation: bounce-start 1s ease-in-out infinite;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.arrow {
+  border: solid black;
+  border-width: 0 3px 3px 0;
+  display: inline-block;
+  padding: 3px;
+}
+
+.down {
+  transform: rotate(45deg);
+}
+
+#lives {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  cursor: pointer;
 }
 
 .rabbit {
   position: absolute;
   cursor: pointer;
   min-height: 10%;
+  animation: move var(--travel-time) forwards linear, bounce 1s ease-in;
+}
+
+@keyframes move {
+  to {
+    left: 100%;
+  }
+}
+
+@keyframes bounce {
+  100% {
+    transform: translateY(0%);
+  }
+
+  96% {
+    transform: translateY(-5.54%);
+  }
+
+  92% {
+    transform: translateY(-12%);
+  }
+
+  82% {
+    transform: translateY(-6.25%);
+  }
+
+  74% {
+    transform: translateY(-1.63%);
+  }
+
+  54% {
+    transform: translateY(-24.98%);
+  }
+
+  36% {
+    transform: translateY(-2%);
+  }
+
+  24% {
+    transform: translateY(-40%);
+  }
+
+  12% {
+    transform: translateY(-60%);
+  }
+
+  0% {
+    transform: translateY(0%);
+  }
+}
+
+@keyframes bounce-start {
+  0% {
+    transform: translateY(0%);
+  }
+  50% {
+    transform: translateY(20%);
+  }
+  100% {
+    transform: translateY(0%);
+  }
 }
