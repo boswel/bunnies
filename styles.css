@@ -23,9 +23,8 @@ body {
 }
 
 #start {
-  /*actually, I want it on top of the first life - but that has position absolute */
-  top: 70%;
-  left: 67%;
+  top: -60%;
+  left: 0%;
   animation: bounce-start 1s ease-in-out infinite;
   display: flex;
   flex-direction: column;

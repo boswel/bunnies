@@ -6,7 +6,7 @@ let counter_span = document.querySelector("span");
 counter_span.textContent = counter; 
 
 let container = document.getElementById("bunnyspace");
-container.setAttribute("style", "--travel-time: " + travelTime + "s");  //could add some var in the string instead of 5s
+container.setAttribute("style", "--travel-time: " + travelTime + "s");  
 
 
 function getRabbits(numberRabbits) {
@@ -14,10 +14,6 @@ function getRabbits(numberRabbits) {
     setTimeout(
       () => { generateRabbit(numberRabbits) },
       200 * rabbit
-    );
-    setTimeout(                                             // kind of works, but not quite the way it should
-      () => { document.getElementById("bunnyspace").children[0].remove() },
-      travelTime * 1000 + 200 * rabbit
     );
   }
 }
@@ -54,7 +50,11 @@ function generateRabbit(numberRabbits) {
  
   image.style.zIndex = Math.floor(scalingFactor * lowestPosition);
   image.style.filter = "blur(" + ((1 - scalingFactor) * 2) + "px)";
-  //image.style.left = -bunnyWidth +"px";
+  
+  setTimeout(                                             
+      () => { image.remove() },
+      travelTime * 1000
+    );
 }
 
 
