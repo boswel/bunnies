@@ -1,6 +1,7 @@
-let audio = new Audio("./pop4.ogg");
-let numberRabbits = 3; //maybe some dictionary "gameState"; also "controls" -> references to all things in 1 object, "control.counter", "control.lives"; preload audio & bunny files, use index for bunny files "assets" 
+const audio = new Audio("./pop4.ogg");
+const numberRabbits = 3; //maybe some dictionary "gameState"; also "controls" -> references to all things in 1 object, "control.counter", "control.lives"; preload audio & bunny files, use index for bunny files "assets" 
 let travelTime = 5;
+let gameDuration = 30;
 let counter = 0;
 let counter_span = document.querySelector("span");
 counter_span.textContent = counter; 
@@ -62,8 +63,19 @@ let lives = document.getElementById("lives")
 lives.addEventListener("click", (event) => {
   event.target.remove();
   getRabbits(numberRabbits);
-  document.getElementById("start").remove();      //would be better to check whether it exists
+  let start = document.getElementById("start")
+  if (start) {
+    start.remove();
+  }
 });
 
+let x = setInterval(function() {
+  gameDuration--;
+  document.getElementById("countdown").innerHTML = gameDuration + " s";
 
+  if (!gameDuration) {
+    clearInterval(x);
+    document.getElementById("countdown").innerHTML = "EXPIRED";
+  }
+}, 1000);
 

@@ -1,5 +1,6 @@
 body {
   margin: 0;
+  user-select: none;
 }
 
 #bunnyspace {
@@ -10,18 +11,32 @@ body {
   position: relative;
 }
 
+#container {
+  position: absolute;
+  top: 2%;
+  left: 2%;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+
 .textbox {
   background-color: cornsilk;
   padding: 10px;
-  position: absolute;
+
   border: darkgreen solid;
 }
-
-#counter {
+/*
+#countdown {
   top: 2%;
   left: 2%;
 }
 
+#counter {
+  top: 10%;
+  left: 2%;
+}
+*/
 #start {
   top: -60%;
   left: 0%;
@@ -29,6 +44,7 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
+  width: max-content;
 }
 
 .arrow {
