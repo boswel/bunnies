@@ -9,7 +9,6 @@ counter_span.textContent = counter;
 let container = document.getElementById("bunnyspace");
 container.setAttribute("style", "--travel-time: " + travelTime + "s");  
 
-
 function getRabbits(numberRabbits) {
   for (let rabbit = 0; rabbit < numberRabbits; rabbit++) { 
     setTimeout(
@@ -58,24 +57,30 @@ function generateRabbit(numberRabbits) {
     );
 }
 
+let first = true;
 
-let lives = document.getElementById("lives")
-lives.addEventListener("click", (event) => {
-  event.target.remove();
-  getRabbits(numberRabbits);
-  let start = document.getElementById("start")
-  if (start) {
-    start.remove();
-  }
+document.querySelectorAll("#lives img").forEach((item) => {
+  item.addEventListener("click", (event) => {
+    item.remove();
+    getRabbits(numberRabbits);
+    
+    if (first) {
+      startGame();
+      first = false;
+    }
+  });
 });
 
-let x = setInterval(function() {
-  gameDuration--;
-  document.getElementById("countdown").innerHTML = gameDuration + " s";
+function startGame() {
+  document.getElementById("start").remove();
+  
+  let x = setInterval(function() {
+    gameDuration--;
+    document.getElementById("countdown").innerHTML = gameDuration + " s";
 
-  if (!gameDuration) {
-    clearInterval(x);
-    document.getElementById("countdown").innerHTML = "EXPIRED";
-  }
-}, 1000);
-
+    if (!gameDuration) {
+      clearInterval(x);
+      document.getElementById("countdown").innerHTML = "EXPIRED";
+    }
+  }, 1000);
+}

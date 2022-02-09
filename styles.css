@@ -1,6 +1,9 @@
+@import url("https://fonts.googleapis.com/css2?family=Handlee&display=swap");
+
 body {
   margin: 0;
   user-select: none;
+  font-family: "Handlee";
 }
 
 #bunnyspace {
@@ -13,32 +16,48 @@ body {
 
 #container {
   position: absolute;
-  top: 2%;
-  left: 2%;
+  top: 1%;
   display: flex;
   flex-direction: column;
   align-items: stretch;
 }
 
 .textbox {
+  position: relative;
   background-color: cornsilk;
-  padding: 10px;
+  padding: 0.5rem;
+  margin: 0.5rem;
+  border: darkgreen solid 0.2rem;
+  text-align: center;
+}
 
+.textbox p {
+  margin: 0;
+}
+
+.textbox.arrow::after {
+  /*create a spare element after anything that has classes textbox & arrow*/
+  content: "";
+  position: fixed;
+  top: 3.125em;
+  background: linear-gradient(
+    to bottom right,
+    transparent 30%,
+    cornsilk 30% 100%
+  );
   border: darkgreen solid;
-}
-/*
-#countdown {
-  top: 2%;
-  left: 2%;
+  border-width: 0 0.2rem 0.2rem 0;
+  display: inline-block;
+  padding: 0.6em;
+  transform: rotate(45deg);
 }
 
-#counter {
-  top: 10%;
-  left: 2%;
+#countdown {
+  font-size: 2em;
 }
-*/
+
 #start {
-  top: -60%;
+  top: -100%;
   left: 0%;
   animation: bounce-start 1s ease-in-out infinite;
   display: flex;
@@ -47,21 +66,14 @@ body {
   width: max-content;
 }
 
-.arrow {
-  border: solid black;
-  border-width: 0 3px 3px 0;
-  display: inline-block;
-  padding: 3px;
-}
-
-.down {
-  transform: rotate(45deg);
-}
-
 #lives {
   position: absolute;
   bottom: 0;
   right: 0;
+}
+
+#lives img {
+  width: 8em;
   cursor: pointer;
 }
 
@@ -122,12 +134,12 @@ body {
 
 @keyframes bounce-start {
   0% {
-    transform: translateY(0%);
+    transform: translateY(0em);
   }
   50% {
-    transform: translateY(20%);
+    transform: translateY(0.5em);
   }
   100% {
-    transform: translateY(0%);
+    transform: translateY(0em);
   }
 }
