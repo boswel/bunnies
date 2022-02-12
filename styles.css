@@ -28,7 +28,9 @@ body {
   padding: 0.5rem;
   margin: 0.5rem;
   border: darkgreen solid 0.2rem;
+  border-radius: 0.3rem;
   text-align: center;
+  box-shadow: 0.3rem 0.3rem 0.6rem rgba(0, 0, 0, 0.2);
 }
 
 .textbox p {
@@ -36,7 +38,7 @@ body {
 }
 
 .textbox.arrow::after {
-  /*create a spare element after anything that has classes textbox & arrow*/
+  /* here, ::after creates a spare element after anything that has classes textbox & arrow*/
   content: "";
   position: fixed;
   top: 3.125em;
@@ -57,7 +59,8 @@ body {
 }
 
 #start {
-  top: -100%;
+  position: absolute; /*the start textbox had position: relative from .textbox but if I changed top, it didn't move*/
+  top: -70%;
   left: 0%;
   animation: bounce-start 1s ease-in-out infinite;
   display: flex;
@@ -81,7 +84,39 @@ body {
   position: absolute;
   cursor: pointer;
   min-height: 10%;
+  filter: drop-shadow(200px 20px 10px red); /*doesn't do anything*/
   animation: move var(--travel-time) forwards linear, bounce 1s ease-in;
+}
+
+#end {
+  position: absolute;
+  width: 50%;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
+button {
+  display: inline-block;
+  background-color: rgb(73, 143, 73);
+  margin: 1rem 1rem 0.6rem 1rem;
+  border: 0.1rem solid darkgreen;
+  border-radius: 0.5rem;
+  padding: 0.4rem 0.6rem;
+  color: cornsilk;
+  text-align: center;
+  font-size: 1rem;
+  font-family: "Handlee";
+  cursor: pointer;
+}
+
+#congrats {
+  margin: 1rem 0 0 0;
+  color: darkgreen;
+  font-size: 2.5rem;
+}
+#result {
+  font-size: 1.5rem;
 }
 
 @keyframes move {
@@ -91,43 +126,34 @@ body {
 }
 
 @keyframes bounce {
-  100% {
+  0% {
     transform: translateY(0%);
   }
-
-  96% {
-    transform: translateY(-5.54%);
-  }
-
-  92% {
-    transform: translateY(-12%);
-  }
-
-  82% {
-    transform: translateY(-6.25%);
-  }
-
-  74% {
-    transform: translateY(-1.63%);
-  }
-
-  54% {
-    transform: translateY(-24.98%);
-  }
-
-  36% {
-    transform: translateY(-2%);
-  }
-
-  24% {
-    transform: translateY(-40%);
-  }
-
   12% {
     transform: translateY(-60%);
   }
-
-  0% {
+  24% {
+    transform: translateY(-40%);
+  }
+  36% {
+    transform: translateY(-2%);
+  }
+  54% {
+    transform: translateY(-24.98%);
+  }
+  74% {
+    transform: translateY(-1.63%);
+  }
+  82% {
+    transform: translateY(-6.25%);
+  }
+  92% {
+    transform: translateY(-12%);
+  }
+  96% {
+    transform: translateY(-5.54%);
+  }
+  100% {
     transform: translateY(0%);
   }
 }
