@@ -1,4 +1,17 @@
 const audio = new Audio("./pop4.ogg");
+const rabbitPics = [
+  "./images/bunny0.png",
+  "./images/bunny1.png",
+  "./images/bunny2.png",
+  "./images/bunny3.png",
+  "./images/bunny4.png",
+  "./images/bunny5.png",
+  "./images/bunny6.png",
+  "./images/bunny7.png",
+  "./images/bunny8.png",
+  "./images/bunny9.png"
+]
+
 const numberRabbits = 3; //maybe some dictionary "gameState"; also "controls" -> references to all things in 1 object, "control.counter", "control.lives"; preload audio & bunny files, use index for bunny files "assets" 
 let travelTime = 5;
 let gameDuration = 30;
@@ -25,7 +38,7 @@ function generateRabbit(numberRabbits) {
   let image = document.createElement("img")
   container.appendChild(image);
 
-  randomRabbit = Math.floor(Math.random() * 10);
+  randomRabbit = Math.floor(Math.random() * 10); //attached to the window object, which is not what I want ;)
   image.src = "./images/bunny" + randomRabbit + ".png";
   image.alt = "cute rabbit";
   image.classList.add("rabbit");

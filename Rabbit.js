@@ -7,18 +7,24 @@ export class Rabbit {
   visibility;
   sound;
   position = {top, left}; //maybe
+  container;
 
-  constructor(image, height) {
-    this.image = image;   
+  constructor(container, rabbitPics) {
+    let randomRabbit = Math.floor(Math.random() * rabbitPics.length);
+    this.image = new Image();
+    this.image.src = rabbitPics[randomRabbit];
+    this.image.alt = "cute rabbit";
+    this.image.classList.add("rabbit");   
+    this.container = container;
   }
 
   delete() {
 
   }
 
-  appear() {
+  appear(number) {
     //update height based on top
-    this.image.style.height = this.height;
+    this.image.style.height = (maxHeight * number) + "px"; /////
   }
 
   disappear() {
