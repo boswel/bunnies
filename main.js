@@ -1,7 +1,7 @@
 const audio = new Audio("./pop4.ogg");
 const numberRabbits = 3; //maybe some dictionary "gameState"; also "controls" -> references to all things in 1 object, "control.counter", "control.lives"; preload audio & bunny files, use index for bunny files "assets" 
 let travelTime = 5;
-let gameDuration = 5;
+let gameDuration = 30;
 document.getElementById("countdown").innerHTML = gameDuration + " s";
 let counter = 0;
 let counter_span = document.getElementById("clicks1");
@@ -50,7 +50,9 @@ function generateRabbit(numberRabbits) {
   image.style.left = (rightmostPosition * Math.random()) + "px";
  
   image.style.zIndex = Math.floor(scalingFactor * lowestPosition);
-  image.style.filter = "blur(" + ((1 - scalingFactor) * 2) + "px)";
+  
+  let blurAmount = (1 - scalingFactor) * 2;
+  image.style.filter = `drop-shadow(${scalingFactor * -7}px ${scalingFactor * -2}px ${scalingFactor * 10}px rgba(0, 0, 0, 0.2)) blur(${blurAmount}px)`;
   
   setTimeout(                                             
       () => { image.remove() },
@@ -83,13 +85,12 @@ function startGame() {
       clearInterval(x);
       document.getElementById("countdown").hidden = true;
       document.getElementById("counter").hidden = true;
-      //document.querySelectorAll("img").remove();  // I cannot use remove on several elements at once, can I?
-      let images = document.querySelectorAll("img");                 // this doesn't even fail, it just doesn't do anything
-      for (let i = 0; i < document.images.length; i++) {
+      
+      let images = document.querySelectorAll("img");
+      for (let i = 0; i < images.length; i++) {
         images[i].remove();
       }
-      
-      
+            
       document.getElementById('end').hidden = false;
       let result_span = document.getElementById("clicks2");
       result_span.textContent = counter; 
@@ -98,10 +99,3 @@ function startGame() {
   }, 1000);
 }
 
-/* found this but won't work because some of my images disappear on their own?
-const myImages = document.images;
-let text = "";
-for (let i = 0; i < myImages.length; i++) {
-  text += myImages[i].src + "<br>";
-}
-*/

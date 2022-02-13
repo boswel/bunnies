@@ -40,7 +40,7 @@ body {
 .textbox.arrow::after {
   /* here, ::after creates a spare element after anything that has classes textbox & arrow*/
   content: "";
-  position: fixed;
+  position: absolute;
   top: 3.125em;
   background: linear-gradient(
     to bottom right,
@@ -59,9 +59,8 @@ body {
 }
 
 #start {
-  position: absolute; /*the start textbox had position: relative from .textbox but if I changed top, it didn't move*/
+  position: absolute;
   top: -70%;
-  left: 0%;
   animation: bounce-start 1s ease-in-out infinite;
   display: flex;
   flex-direction: column;
@@ -84,7 +83,6 @@ body {
   position: absolute;
   cursor: pointer;
   min-height: 10%;
-  filter: drop-shadow(200px 20px 10px red); /*doesn't do anything*/
   animation: move var(--travel-time) forwards linear, bounce 1s ease-in;
 }
 

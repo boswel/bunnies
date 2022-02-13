@@ -2,12 +2,6 @@ Rabbit class
 
 Game class (contains state of the game)
 
-startsTimer
-
-
-
-
-
 
 
 
