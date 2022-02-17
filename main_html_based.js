@@ -1,6 +1,3 @@
-import {Rabbit} from "./Rabbit.js"
-
-
 const audio = new Audio("./pop4.ogg");
 const rabbitPics = [
   "./images/bunny0.png",
@@ -15,7 +12,7 @@ const rabbitPics = [
   "./images/bunny9.png"
 ]
 
-const numberRabbits = 3; //maybe some dictionary "gameState"; also "controls" -> references to all things in 1 object, "control.counter", "control.lives" 
+const numberRabbits = 3; //maybe some dictionary "gameState"; also "controls" -> references to all things in 1 object, "control.counter", "control.lives"; preload audio & bunny files, use index for bunny files "assets" 
 let travelTime = 5;
 let gameDuration = 30;
 document.getElementById("countdown").innerHTML = gameDuration + " s";
@@ -38,17 +35,42 @@ function getRabbits(numberRabbits) {
 function generateRabbit(numberRabbits) {
   audio.play();
   
-  let rabbit = new Rabbit(rabbitPics);
-  container.appendChild(rabbit.image);
-  rabbit.appear(Math.random());
+  let image = document.createElement("img")
+  container.appendChild(image);
+
+  randomRabbit = Math.floor(Math.random() * 10); //attached to the window object, which is not what I want ;)
+  image.src = "./images/bunny" + randomRabbit + ".png";
+  image.alt = "cute rabbit";
+  image.classList.add("rabbit");
   
-  rabbit.image.addEventListener("click", (event) => {
+  image.addEventListener("click", (event) => {
     getRabbits(numberRabbits);
     event.target.remove();
     counter++;
     let counter_span = document.querySelector("span");
     counter_span.textContent = counter;
   });
+ 
+  let maxBunnyHeight = container.offsetHeight / 100 * 50; //px
+  let lowestPosition = container.offsetHeight - maxBunnyHeight;
+
+  let scalingFactor = Math.random();
+  image.style.height = (maxBunnyHeight * scalingFactor) + "px";
+  image.style.top = (lowestPosition * scalingFactor) + "px";
+
+  let bunnyWidth = parseFloat(getComputedStyle(image).getPropertyValue("height"));
+  let rightmostPosition = (container.offsetWidth - bunnyWidth)/2;
+  image.style.left = (rightmostPosition * Math.random()) + "px";
+ 
+  image.style.zIndex = Math.floor(scalingFactor * lowestPosition);
+  
+  let blurAmount = (1 - scalingFactor) * 2;
+  image.style.filter = `drop-shadow(${scalingFactor * -7}px ${scalingFactor * -2}px ${scalingFactor * 10}px rgba(0, 0, 0, 0.2)) blur(${blurAmount}px)`;
+  
+  setTimeout(                                             
+      () => { image.remove() },
+      travelTime * 1000
+    );
 }
 
 let first = true;
