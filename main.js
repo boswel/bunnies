@@ -15,7 +15,8 @@ const rabbitPics = [
   "./images/bunny9.png"
 ]
 
-const numberRabbits = 3; //maybe some dictionary "gameState"; also "controls" -> references to all things in 1 object, "control.counter", "control.lives" 
+const numberRabbitsBunnies = 2; //maybe some dictionary "gameState"; also "controls" -> references to all things in 1 object, "control.counter", "control.lives" 
+const numberRabbitsStart = 3;  
 let travelTime = 5;
 let gameDuration = 30;
 document.getElementById("countdown").innerHTML = gameDuration + " s";
@@ -29,7 +30,7 @@ container.setAttribute("style", "--travel-time: " + travelTime + "s");
 function getRabbits(numberRabbits) {
   for (let rabbit = 0; rabbit < numberRabbits; rabbit++) { 
     setTimeout(
-      () => { generateRabbit(numberRabbits) },
+      () => { generateRabbit(numberRabbitsBunnies) },
       200 * rabbit
     );
   }
@@ -56,7 +57,7 @@ let first = true;
 document.querySelectorAll("#lives img").forEach((item) => {
   item.addEventListener("click", (event) => {
     item.remove();
-    getRabbits(numberRabbits);
+    getRabbits(numberRabbitsStart);
     
     if (first) {
       startGame();
@@ -82,11 +83,22 @@ function startGame() {
         images[i].remove();
       }
             
-      document.getElementById('end').hidden = false;
+      document.getElementById("end").hidden = false;
       let result_span = document.getElementById("clicks2");
       result_span.textContent = counter; 
+      
+      if (counter > localStorage.getItem("highscore")) {
+          localStorage.setItem('highscore', counter);  
+        }
 
+      document.getElementById("highscore-points").innerText = localStorage.getItem('highscore');
     }
   }, 1000);
 }
 
+document.getElementById("again").addEventListener("click", (event) => {
+  
+  
+  
+  window.location.reload(true);    
+});
