@@ -1,35 +1,32 @@
 export class Rabbit {
 
   image;
-  /*speed;
-  visibility;
-  sound;
-  position = {top, left}; //maybe*/
-  static container = document.getElementById("bunnyspace");  ////
+    static container = document.getElementById("bunnyspace");  ////
   static travelTime = 5; ////
+  static audio = new Audio("./pop4.ogg");
 
-  constructor(rabbitPics) {
-    let randomRabbit = Math.floor(Math.random() * rabbitPics.length);
+  constructor(rabbitPic) {
     this.image = new Image();
-    this.image.src = rabbitPics[randomRabbit];
+    this.image.src = rabbitPic;
     this.image.alt = "cute rabbit";
+    this.image.rabbit = this;   // to have a reference to the Rabbit object (e.g. for deleting it)
     this.image.classList.add("rabbit");   
   }
 
   delete() {
-
+    this.image.remove();
+    delete this;
   }
 
-  appear(scalingFactor) {
-    //update height based on top - or not
-    let maxHeight = Rabbit.container.offsetHeight / 100 * 50; //px  // this is actually static; and the magic 50 could be a var rabbitRelMaxHeight in the game settings/controls because it also determines difficulty
-    this.image.style.height = (maxHeight * scalingFactor) + "px"; 
-   
-    let lowestPosition = Rabbit.container.offsetHeight - maxHeight;  // see above
+  appear(scalingFactor, maxHeight, lowestPosition) { //either send an area or x/y coordinates to position bunny
+    this.constructor.audio.play();  //this.constructor refers to the class itself and gives access to static properties
+    this.constructor.container.appendChild(this.image);
+    
+    this.image.style.height = (maxHeight * scalingFactor) + "px";     
     this.image.style.top = (lowestPosition * scalingFactor) + "px";
 
     let bunnyWidth = parseFloat(getComputedStyle(this.image).getPropertyValue("height"));
-    let rightmostPosition = (container.offsetWidth - bunnyWidth) / 2;  // divisor could/should be var
+    let rightmostPosition = (container.offsetWidth - bunnyWidth) / 2;  // divisor could/should be var /////
     this.image.style.left = (rightmostPosition * Math.random()) + "px";
   
     this.image.style.zIndex = Math.floor(scalingFactor * lowestPosition);
@@ -42,22 +39,5 @@ export class Rabbit {
       Rabbit.travelTime * 1000
     );
   }
-
-  disappear() {
-
-  }
-
-  multiply() {
-
-  }  
-
-  move() {
-
-  }
-
-  onClick() {
-
-  }
   
-
 }
