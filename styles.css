@@ -31,6 +31,7 @@ body {
   border-radius: 0.3rem;
   text-align: center;
   box-shadow: 0.3rem 0.3rem 0.6rem rgba(0, 0, 0, 0.2);
+  z-index: 9999;
 }
 
 .textbox p {

@@ -1,29 +1,44 @@
-import { gameConfig } from "./config.js";
+import { gameConfig, gameElements } from "./config.js";
+import { Rabbit } from "./Rabbit.js";
+
 
 export class Game {
-  bunnyspace;
-  numberRabbitsStart;
+  // options from config
+  numberRabbitsStart; 
   numberRabbitsGame;
+  speed;
+  duration;
+  counter = 0;
+  rabbitPics;
+
+  // other properties
+  bunnyspace;
   travelTime;  // time for bunnies to leave the screen
   timeLeft;
-  counter = 0;
   timer;
   maxBunnyHeight;
   lowestBunnyPosition; 
+  rightmostBunnyPosition;
 
   constructor() {
     for (let option of Object.keys(gameConfig)) {
       this[option] = gameConfig[option];
     }
 
+    this.timeLeft = this.duration;
+    
     document.getElementById("countdown").innerHTML = this.timeLeft + " s";
+    this.bunnyspace = document.getElementById("bunnyspace");
+    this.travelTime = this.bunnyspace.offsetWidth / this.speed;
     this.bunnyspace.setAttribute("style", "--travel-time: " + this.travelTime + "s"); 
-    this.maxBunnyHeight = this.bunnyspace.offsetHeight / 100 * 50; //px  // this is actually const/static/general whatever; and the magic 50 could be a var rabbitRelMaxHeight in the game settings/controls because it also determines difficulty
+    
+    this.maxBunnyHeight = this.bunnyspace.offsetHeight / 100 * 50; //px  // the magic 50 could be a var rabbitRelMaxHeight in the game settings/controls because it also determines difficulty
     this.lowestBunnyPosition = this.bunnyspace.offsetHeight - this.maxBunnyHeight;  // see above
+    this.rightmostBunnyPosition = this.bunnyspace.offsetWidth / 3;
   }
 
   start() {
-    this.timer = setInterval(function() {
+    this.timer = setInterval(() => {
       this.timeLeft--;
       document.getElementById("countdown").innerHTML = this.timeLeft + " s";
 
@@ -36,9 +51,9 @@ export class Game {
   end() {
     clearInterval(this.timer);
 
-    document.getElementById("countdown").hidden = true;
-    document.getElementById("counter").hidden = true;
-    
+    gameElements.countdown.hidden = true;
+    gameElements.counter.hidden = true;
+
     //we actually want to remove the Rabbits, not only the imgs //having an array of rabbits might be useful
     let images = document.querySelectorAll("img");
     for (let image of images) {
@@ -52,10 +67,10 @@ export class Game {
           
     document.getElementById("end").hidden = false;
     let result_span = document.getElementById("clicks2");
-    result_span.textContent = counter; 
+    result_span.textContent = this.counter; 
     
-    if (counter > localStorage.getItem("highscore")) {
-        localStorage.setItem('highscore', counter);  
+    if (this.counter > localStorage.getItem("highscore")) {
+        localStorage.setItem('highscore', this.counter);  
       }
 
     document.getElementById("highscore-points").textContent = localStorage.getItem('highscore');
@@ -63,27 +78,37 @@ export class Game {
 
   addRabbits(number) {
 
-    for (let rabbit = 0; rabbit < number; rabbit++) { 
+    for (let bunny = 0; bunny < number; bunny++) { 
       setTimeout(() => {
 
         let index = Math.floor(Math.random() * gameConfig.rabbitPics.length);
         let rabbit = new Rabbit(gameConfig.rabbitPics[index]);
-        // calculate x & y coordinates for rabbit position
-          // get scaling factor
-          // with scaling factor, calculate y coordinate
-          // select random x coordinate within boundaries
-          // pass x & y & scaling factor = 1 to rabbit.appear()
-        rabbit.appear(Math.random(), this.maxBunnyHeight);
+        
+        let scalingFactor = Math.random();
+        let height = this.maxBunnyHeight * scalingFactor;
+        let top = this.lowestBunnyPosition * scalingFactor;
+        let left = this.rightmostBunnyPosition * Math.random();
+
+        rabbit.makeSound();
+        rabbit.setHeight(height);
+        rabbit.setPosition(left, top)
+        rabbit.setAppearance(scalingFactor);
+        rabbit.attachTo(this.bunnyspace);
+
+        setTimeout(                                             
+          () => { rabbit.delete() },
+          this.travelTime * 1000
+        );
 
         rabbit.image.addEventListener("click", (event) => {
-          this.addRabbits(numberRabbitsGame);
+          this.addRabbits(this.numberRabbitsGame);
           event.target.rabbit.delete();
-          counter++;
-          let counter_span = document.querySelector("span");
-          counter_span.textContent = counter;
+          this.counter++;
+          let counter_span = document.getElementById("clicks1");
+          counter_span.textContent = this.counter;
         });
 
-      }, 200 * rabbit);
+      }, 200 * bunny);
     }
   }
 

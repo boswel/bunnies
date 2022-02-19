@@ -1,20 +1,19 @@
-import {Rabbit} from "./Rabbit.js"
 import {Game} from "./Game.js"
 
 let myGame = new Game();
 
 let counter_span = document.getElementById("clicks1");
-counter_span.textContent = counter; 
+counter_span.textContent = myGame.counter; 
 
 let first = true;
 
 document.querySelectorAll("#lives img").forEach((item) => {
   item.addEventListener("click", (event) => {
-    item.remove();
-    document.getElementById("start").remove();
+    item.remove();    
     myGame.addRabbits(myGame.numberRabbitsStart);
     
     if (first) {
+      document.getElementById("start").remove();
       myGame.start();
       first = false;
     }

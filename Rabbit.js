@@ -1,8 +1,6 @@
 export class Rabbit {
 
   image;
-    static container = document.getElementById("bunnyspace");  ////
-  static travelTime = 5; ////
   static audio = new Audio("./pop4.ogg");
 
   constructor(rabbitPic) {
@@ -18,26 +16,29 @@ export class Rabbit {
     delete this;
   }
 
-  appear(scalingFactor, maxHeight, lowestPosition) { //either send an area or x/y coordinates to position bunny
+  makeSound() {
     this.constructor.audio.play();  //this.constructor refers to the class itself and gives access to static properties
-    this.constructor.container.appendChild(this.image);
-    
-    this.image.style.height = (maxHeight * scalingFactor) + "px";     
-    this.image.style.top = (lowestPosition * scalingFactor) + "px";
+  }
 
-    let bunnyWidth = parseFloat(getComputedStyle(this.image).getPropertyValue("height"));
-    let rightmostPosition = (container.offsetWidth - bunnyWidth) / 2;  // divisor could/should be var /////
-    this.image.style.left = (rightmostPosition * Math.random()) + "px";
-  
-    this.image.style.zIndex = Math.floor(scalingFactor * lowestPosition);
+  setHeight(height) { //width sets itself
+    this.image.style.height = height + "px";
+  }
+
+  setPosition(left, top) {
+    this.image.style.left = left + "px";
+    this.image.style.top = top + "px";
+  }
+
+  attachTo(element) {
+    element.appendChild(this.image);
+  }
+
+  setAppearance(scalingFactor) {
+
+    this.image.style.zIndex = Math.floor(scalingFactor * 1000);
     
     let blurAmount = (1 - scalingFactor) * 2;
     this.image.style.filter = `drop-shadow(${scalingFactor * -7}px ${scalingFactor * -2}px ${scalingFactor * 10}px rgba(0, 0, 0, 0.2)) blur(${blurAmount}px)`;
-    
-    setTimeout(                                             
-      () => { this.image.remove() },  // not only remove the image but destroy the Rabbit instance
-      Rabbit.travelTime * 1000
-    );
   }
-  
+
 }

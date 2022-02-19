@@ -1,8 +1,7 @@
 export const gameConfig = {
-  bunnyspace: document.getElementById("bunnyspace"),
-  numberRabbitsStart: 2,
-  numberRabbitsGame: 3,
-  speed: 5,
+  numberRabbitsStart: 3,
+  numberRabbitsGame: 2,
+  speed: 100,
   duration: 30,
   counter: 0,
   rabbitPics: [
@@ -17,5 +16,10 @@ export const gameConfig = {
     "./images/bunny8.png",
     "./images/bunny9.png"
   ]
+}
+
+export const gameElements = {
+  countdown: document.getElementById("countdown"),
+  counter: document.getElementById("counter")
 }
 
