@@ -1,6 +1,10 @@
-Rabbit class
 
-Game class (contains state of the game)
+
+
+counter: 
+  ID of div (= gameElement), in which there is the span clicks1, called counter_span
+  also Game property, which is the value that should be displayed -> "countedClicks"
+
 
 
 

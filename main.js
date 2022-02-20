@@ -2,9 +2,6 @@ import {Game} from "./Game.js"
 
 let myGame = new Game();
 
-let counter_span = document.getElementById("clicks1");
-counter_span.textContent = myGame.counter; 
-
 let first = true;
 
 document.querySelectorAll("#lives img").forEach((item) => {
