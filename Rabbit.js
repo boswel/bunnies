@@ -11,11 +11,6 @@ export class Rabbit {
     this.image.classList.add("rabbit");   
   }
 
-  delete() {
-    this.image.remove();
-    delete this;
-  }
-
   makeSound() {
     this.constructor.audio.play();  //this.constructor refers to the class itself and gives access to static properties
   }
@@ -31,6 +26,10 @@ export class Rabbit {
 
   attachTo(element) {
     element.appendChild(this.image);
+  }
+
+  detach() {  
+    this.image.remove();
   }
 
   setAppearance(scalingFactor) {

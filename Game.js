@@ -8,13 +8,14 @@ export class Game {
   numberRabbitsGame;
   speed;
   duration;
-  countedClicks = 0;
   rabbitPics;
 
   // other properties
   travelTime;  // time for bunnies to leave the screen
   timeLeft;
   timer;
+  bunnyDelay;
+  countedClicks = 0;
   maxBunnyHeight;
   lowestBunnyPosition; 
   rightmostBunnyPosition;
@@ -49,6 +50,7 @@ export class Game {
 
   end() {
     clearInterval(this.timer);
+    clearTimeout(this.bunnyDelay);
 
     gameElements.countdown.hidden = true;
     gameElements.countedClicksDiv.hidden = true;
@@ -56,13 +58,9 @@ export class Game {
     //we actually want to remove the Rabbits, not only the imgs //having an array of rabbits might be useful
     let images = document.querySelectorAll("img");
     for (let image of images) {
-      if (image.hasOwnProperty("rabbit")) {
-        image.rabbit.delete();
-      }
-      else {
-        image.remove();
-      }
+      image.remove();
     }
+    
           
     gameElements.end.hidden = false;
     gameElements.resultDisplay.textContent = this.countedClicks; 
@@ -77,7 +75,7 @@ export class Game {
   addRabbits(number) {
 
     for (let bunny = 0; bunny < number; bunny++) { 
-      setTimeout(() => {
+      this.bunnyDelay = setTimeout(() => {
 
         let index = Math.floor(Math.random() * gameConfig.rabbitPics.length);
         let rabbit = new Rabbit(gameConfig.rabbitPics[index]);
@@ -94,13 +92,15 @@ export class Game {
         rabbit.attachTo(gameElements.bunnyspace);
 
         setTimeout(                                             
-          () => { rabbit.delete() },
+          () => { 
+            rabbit.detach();
+          },
           this.travelTime * 1000
         );
 
         rabbit.image.addEventListener("click", (event) => {
           this.addRabbits(this.numberRabbitsGame);
-          event.target.rabbit.delete();
+          event.target.rabbit.detach();
           this.countedClicks++;
           gameElements.countedClicksDisplay.textContent = this.countedClicks;
         });

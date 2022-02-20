@@ -2,8 +2,7 @@ export const gameConfig = {
   numberRabbitsStart: 3,
   numberRabbitsGame: 2,
   speed: 200,
-  duration: 30,
-  countedClicks: 0,
+  duration: 5,
   rabbitPics: [
     "./images/bunny0.png",
     "./images/bunny1.png",
