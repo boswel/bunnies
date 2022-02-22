@@ -1,6 +1,7 @@
-Rabbit class
 
-Game class (contains state of the game)
+GameControls class
+myGameControls.setTimeLeft(number)
+"operation of the controls" as opposed "logic & state of gameplay"
 
 
 

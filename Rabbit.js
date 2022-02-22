@@ -1,63 +1,43 @@
 export class Rabbit {
 
   image;
-  /*speed;
-  visibility;
-  sound;
-  position = {top, left}; //maybe*/
-  static container = document.getElementById("bunnyspace");  ////
-  static travelTime = 5; ////
+  static audio = new Audio("./pop4.ogg");
 
-  constructor(rabbitPics) {
-    let randomRabbit = Math.floor(Math.random() * rabbitPics.length);
+  constructor(rabbitPic) {
     this.image = new Image();
-    this.image.src = rabbitPics[randomRabbit];
+    this.image.src = rabbitPic;
     this.image.alt = "cute rabbit";
+    this.image.rabbit = this;   // to have a reference to the Rabbit object (e.g. for deleting it)
     this.image.classList.add("rabbit");   
   }
 
-  delete() {
-
+  makeSound() {
+    this.constructor.audio.play();  //this.constructor refers to the class itself and gives access to static properties
   }
 
-  appear(scalingFactor) {
-    //update height based on top - or not
-    let maxHeight = Rabbit.container.offsetHeight / 100 * 50; //px  // this is actually static; and the magic 50 could be a var rabbitRelMaxHeight in the game settings/controls because it also determines difficulty
-    this.image.style.height = (maxHeight * scalingFactor) + "px"; 
-   
-    let lowestPosition = Rabbit.container.offsetHeight - maxHeight;  // see above
-    this.image.style.top = (lowestPosition * scalingFactor) + "px";
+  setHeight(height) { //width sets itself
+    this.image.style.height = height + "px";
+  }
 
-    let bunnyWidth = parseFloat(getComputedStyle(this.image).getPropertyValue("height"));
-    let rightmostPosition = (container.offsetWidth - bunnyWidth) / 2;  // divisor could/should be var
-    this.image.style.left = (rightmostPosition * Math.random()) + "px";
-  
-    this.image.style.zIndex = Math.floor(scalingFactor * lowestPosition);
+  setPosition(left, top) {
+    this.image.style.left = left + "px";
+    this.image.style.top = top + "px";
+  }
+
+  attachTo(element) {
+    element.appendChild(this.image);
+  }
+
+  detach() {  
+    this.image.remove();
+  }
+
+  setAppearance(scalingFactor) {
+
+    this.image.style.zIndex = Math.floor(scalingFactor * 1000);
     
     let blurAmount = (1 - scalingFactor) * 2;
     this.image.style.filter = `drop-shadow(${scalingFactor * -7}px ${scalingFactor * -2}px ${scalingFactor * 10}px rgba(0, 0, 0, 0.2)) blur(${blurAmount}px)`;
-    
-    setTimeout(                                             
-      () => { this.image.remove() },  // not only remove the image but destroy the Rabbit instance
-      Rabbit.travelTime * 1000
-    );
   }
-
-  disappear() {
-
-  }
-
-  multiply() {
-
-  }  
-
-  move() {
-
-  }
-
-  onClick() {
-
-  }
-  
 
 }
