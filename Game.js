@@ -1,4 +1,5 @@
 import { gameConfig, gameElements } from "./config.js";
+import { Controls } from "./Controls.js";
 import { Rabbit } from "./Rabbit.js";
 
 
@@ -101,8 +102,7 @@ export class Game {
         rabbit.image.addEventListener("click", (event) => {
           this.addRabbits(this.numberRabbitsGame);
           event.target.rabbit.detach();
-          this.countedClicks++;
-          gameElements.countedClicksDisplay.textContent = this.countedClicks;
+          this.countedClicks = Controls.incrementBunnyCount(this.countedClicks);
         });
 
       }, 200 * bunny);

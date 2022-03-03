@@ -1,38 +1,19 @@
-import { gameConfig, gameElements } from "./config.js";
+import { gameElements } from "./config.js";
+import { Controls } from "./Controls.js";
 import { Rabbit } from "./Rabbit.js";
 
 
 export class Game {
-  // options from config
-  numberRabbitsStart; 
-  numberRabbitsGame;
-  speed;
-  duration;
-  rabbitPics;
-
-  // other properties
-  travelTime;  // time for bunnies to leave the screen
+  
+  controls;
   timeLeft;
-  timer;
-  bunnyDelay;
+  timer;  
   countedClicks = 0;
-  maxBunnyHeight;
-  lowestBunnyPosition; 
-  rightmostBunnyPosition;
-
+  bunnyDelay; //is created by addRabbits() -> must be property of Game?
+  
   constructor() {
-    for (let option of Object.keys(gameConfig)) {
-      this[option] = gameConfig[option];
-    }
-
-    this.travelTime = gameElements.bunnyspace.offsetWidth / this.speed;
-    gameElements.bunnyspace.setAttribute("style", "--travel-time: " + this.travelTime + "s"); 
-    
-    this.maxBunnyHeight = gameElements.bunnyspace.offsetHeight / 100 * 50; //px  // the magic 50 could be a var rabbitRelMaxHeight in the game settings/controls because it also determines difficulty
-    this.lowestBunnyPosition = gameElements.bunnyspace.offsetHeight - this.maxBunnyHeight;
-    this.rightmostBunnyPosition = gameElements.bunnyspace.offsetWidth / 3;
-
-    this.timeLeft = this.duration;
+    this.controls = new Controls();  
+    this.timeLeft = controls.setTimeLeft(); ////
     gameElements.countdown.innerHTML = this.timeLeft + " s";
     gameElements.countedClicksDisplay.textContent = this.countedClicks; 
   }
@@ -50,18 +31,16 @@ export class Game {
 
   end() {
     clearInterval(this.timer);
-    clearTimeout(this.bunnyDelay);
+    clearTimeout(this.bunnyDelay); 
 
     gameElements.countdown.hidden = true;
     gameElements.countedClicksDiv.hidden = true;
 
-    //we actually want to remove the Rabbits, not only the imgs //having an array of rabbits might be useful
     let images = document.querySelectorAll("img");
     for (let image of images) {
       image.remove();
     }
     
-          
     gameElements.end.hidden = false;
     gameElements.resultDisplay.textContent = this.countedClicks; 
     
@@ -77,17 +56,16 @@ export class Game {
     for (let bunny = 0; bunny < number; bunny++) { 
       this.bunnyDelay = setTimeout(() => {
 
-        let index = Math.floor(Math.random() * gameConfig.rabbitPics.length);
-        let rabbit = new Rabbit(gameConfig.rabbitPics[index]);
+        let rabbit = new Rabbit(controls.selectRabbitPics()); ////
         
         let scalingFactor = Math.random();
-        let height = this.maxBunnyHeight * scalingFactor;
-        let top = this.lowestBunnyPosition * scalingFactor;
-        let left = this.rightmostBunnyPosition * Math.random();
+        let height = controls.setBunnyHeight(scalingFactor); ////
+        let top = controls.setLowestBunnyPosition(scalingFactor); ////
+        let left = controls.setRightmostBunnyPosition(Math.random()); ////
 
         rabbit.makeSound();
         rabbit.setHeight(height);
-        rabbit.setPosition(left, top)
+        rabbit.setPosition(left, top);
         rabbit.setAppearance(scalingFactor);
         rabbit.attachTo(gameElements.bunnyspace);
 
@@ -99,7 +77,7 @@ export class Game {
         );
 
         rabbit.image.addEventListener("click", (event) => {
-          this.addRabbits(this.numberRabbitsGame);
+          this.addRabbits(controls.setNumberRabbitsGame());///////////////
           event.target.rabbit.detach();
           this.countedClicks++;
           gameElements.countedClicksDisplay.textContent = this.countedClicks;
