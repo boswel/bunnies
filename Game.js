@@ -40,9 +40,8 @@ export class Game {
 
   start() {
     this.timer = setInterval(() => {
-      this.timeLeft--;
-      gameElements.countdown.innerHTML = this.timeLeft + " s";
-
+      this.timeLeft = Controls.decreaseTimer(this.timeLeft);
+      
       if (this.timeLeft <= 0) {
         this.end();
       }
@@ -53,24 +52,13 @@ export class Game {
     clearInterval(this.timer);
     clearTimeout(this.bunnyDelay);
 
-    gameElements.countdown.hidden = true;
-    gameElements.countedClicksDiv.hidden = true;
-
-    //we actually want to remove the Rabbits, not only the imgs //having an array of rabbits might be useful
     let images = document.querySelectorAll("img");
     for (let image of images) {
       image.remove();
     }
     
-          
-    gameElements.end.hidden = false;
-    gameElements.resultDisplay.textContent = this.countedClicks; 
+    Controls.showFinalScore(this.countedClicks);      
     
-    if (this.countedClicks > localStorage.getItem("highscore")) {
-        localStorage.setItem("highscore", this.countedClicks);  
-      }
-
-    gameElements.highscoreDisplay.textContent = localStorage.getItem("highscore");
   }
 
   addRabbits(number) {
