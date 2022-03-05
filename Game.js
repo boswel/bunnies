@@ -97,6 +97,23 @@ export class Game {
     }
   }
 
+  makeLives() {
+    let first = true;
+
+    gameElements.lives.forEach((item) => {
+      item.addEventListener("click", (event) => {
+        item.remove();    
+        this.addRabbits(this.numberRabbitsStart);  
+        
+        if (first) {
+          gameElements.start.remove();
+          this.start();
+          first = false;
+        }
+      });
+    });
+  }
+
 }
 
 /*

@@ -19,9 +19,11 @@ export const gameConfig = {
 
 export const gameElements = {
   bunnyspace: document.getElementById("bunnyspace"),
+  lives: document.querySelectorAll("#lives img"),
   countdown: document.getElementById("countdown"),
   countedClicksDiv: document.getElementById("counter"),
   countedClicksDisplay: document.getElementById("clicks1"),
+  start: document.getElementById("start"),
   end: document.getElementById("end"),
   resultDisplay: document.getElementById("clicks2"),
   highscoreDisplay: document.getElementById("highscore-points")
