@@ -76,7 +76,7 @@ body {
 }
 
 #lives img {
-  width: 8em;
+  width: 6em;
   cursor: pointer;
 }
 
@@ -186,3 +186,32 @@ body {
     transform: translateY(0em);
   }
 }
+
+@media screen and (max-width: 480px) {
+  #lives img {
+    width: 4em;
+  }
+
+  #end {
+    position: absolute;
+    width: 80%;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+  }
+}
+
+@media screen and (max-width: 280px) {
+  #congrats {
+    font-size: 2rem;
+  }
+}
+
+/* 
+bunny size
+lives size
+font size
+start position
+
+
+*/
