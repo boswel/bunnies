@@ -61,7 +61,8 @@ body {
 
 #start {
   position: absolute;
-  top: -70%;
+  top: -6em;
+  left: -1.5em;
   animation: bounce-start 1s ease-in-out infinite;
   display: flex;
   flex-direction: column;
@@ -188,10 +189,6 @@ body {
 }
 
 @media screen and (max-width: 480px) {
-  #lives img {
-    width: 4em;
-  }
-
   #end {
     position: absolute;
     width: 80%;
@@ -199,9 +196,18 @@ body {
     top: 50%;
     transform: translate(-50%, -50%);
   }
+  .rabbit {
+    max-height: 20%;
+  }
 }
 
-@media screen and (max-width: 280px) {
+@media screen and (max-width: 300px) {
+  #lives {
+    font-size: 0.75rem;
+  }
+  #start {
+    font-size: 1rem;
+  }
   #congrats {
     font-size: 2rem;
   }
