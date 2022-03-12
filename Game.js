@@ -35,6 +35,9 @@ export class Game {
     this.timeLeft = this.duration;
     gameElements.countdown.innerHTML = this.timeLeft + " s";
     gameElements.countedClicksDisplay.textContent = this.countedClicks; 
+
+    this.makeLives();
+    Controls.addEventListeners();
   }
 
   start() {

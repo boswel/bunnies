@@ -28,9 +28,9 @@ export class Controls {
 
   }
 
-  static restart() {
-    document.getElementById("again").addEventListener("click", (event) => {
-    window.location.reload(true);  
+  static addEventListeners() {
+    gameElements.again.addEventListener("click", (event) => {
+      window.location.reload(true);  
     });
   }  
 }

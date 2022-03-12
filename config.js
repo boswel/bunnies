@@ -14,6 +14,7 @@ export const gameElements = {
   start: document.getElementById("start"),
   end: document.getElementById("end"),
   resultDisplay: document.getElementById("clicks2"),
-  highscoreDisplay: document.getElementById("highscore-points")
+  highscoreDisplay: document.getElementById("highscore-points"),
+  again: document.getElementById("again")
 }
 
