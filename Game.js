@@ -9,8 +9,7 @@ export class Game {
   numberRabbitsGame;
   speed;
   duration;
-  rabbitPics;
-
+  
   // other properties
   travelTime;  // time for bunnies to leave the screen
   timeLeft;
@@ -66,8 +65,7 @@ export class Game {
     for (let bunny = 0; bunny < number; bunny++) { 
       this.bunnyDelay = setTimeout(() => {
 
-        let index = Math.floor(Math.random() * gameConfig.rabbitPics.length);
-        let rabbit = new Rabbit(gameConfig.rabbitPics[index]);
+        let rabbit = new Rabbit();
         
         let scalingFactor = Math.random();
         let height = this.maxBunnyHeight * scalingFactor;
@@ -89,7 +87,7 @@ export class Game {
 
         rabbit.image.addEventListener("click", (event) => {
           this.addRabbits(this.numberRabbitsGame);
-          event.target.rabbit.detach();
+          rabbit.detach();
           this.countedClicks = Controls.incrementBunnyCount(this.countedClicks);
         });
 

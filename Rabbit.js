@@ -2,13 +2,30 @@ export class Rabbit {
 
   image;
   static audio = new Audio("./pop4.ogg");
+  static images = [
+    "./images/bunny0.png",
+    "./images/bunny1.png",
+    "./images/bunny2.png",
+    "./images/bunny3.png",
+    "./images/bunny4.png",
+    "./images/bunny5.png",
+    "./images/bunny6.png",
+    "./images/bunny7.png",
+    "./images/bunny8.png",
+    "./images/bunny9.png"
+  ].map(function(imagesrc) {
+      let newimage = new Image();
+      newimage.src = imagesrc;
+      newimage.alt = "cute rabbit";
+      newimage.classList.add("rabbit"); 
+      return newimage;
+    }
+  )
 
-  constructor(rabbitPic) {
-    this.image = new Image();
-    this.image.src = rabbitPic;
-    this.image.alt = "cute rabbit";
+  constructor() {
+    let index = Math.floor(Math.random() * this.constructor.images.length);
+    this.image = this.constructor.images[index].cloneNode();
     this.image.rabbit = this;   // to have a reference to the Rabbit object (e.g. for deleting it)
-    this.image.classList.add("rabbit");   
   }
 
   makeSound() {
