@@ -1,18 +1,18 @@
 export class Rabbit {
 
   image;
-  static audio = new Audio("./pop4.ogg");
+  static audio = new Audio("./static/pop4.ogg");
   static images = [
-    "./images/bunny0.png",
-    "./images/bunny1.png",
-    "./images/bunny2.png",
-    "./images/bunny3.png",
-    "./images/bunny4.png",
-    "./images/bunny5.png",
-    "./images/bunny6.png",
-    "./images/bunny7.png",
-    "./images/bunny8.png",
-    "./images/bunny9.png"
+    "./static/images/bunny0.png",
+    "./static/images/bunny1.png",
+    "./static/images/bunny2.png",
+    "./static/images/bunny3.png",
+    "./static/images/bunny4.png",
+    "./static/images/bunny5.png",
+    "./static/images/bunny6.png",
+    "./static/images/bunny7.png",
+    "./static/images/bunny8.png",
+    "./static/images/bunny9.png"
   ].map(function(imagesrc) {
       let newimage = new Image();
       newimage.src = imagesrc;

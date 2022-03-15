@@ -59,8 +59,13 @@ export class Game {
       image.remove();
     }
     
-    Controls.showFinalScore(this.countedClicks);      
+    Controls.showFinalScore(this.countedClicks);   
     
+    //still have to inject this.countedClicks somehow
+    let data = `{
+      "highscore": 75  
+    }`
+    fetch("/save", {method : "POST", body : data}); 
   }
 
   addRabbits(number) {
