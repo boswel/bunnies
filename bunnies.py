@@ -42,12 +42,15 @@ def save_highscore():
 def get_country_score():
     with sqlite3.connect('bunnies.db') as con:
         cur = con.cursor()
-        try:
+        try:           # check for None
             cur.execute(
                 "SELECT highscore FROM bunnyscores")  # WHERE country = ?", (country))
-            return cur.fetchone()
+            # tried to make a tuple out out it because it wants one, still doesn't work
+            country_score = cur.fetchone()[0]
+            return str(country_score)
+            # return {"country_score": country_score}
         except Exception:
             return "nothing there"
 
-    # API = application programming interface = the bits of the code a program makes public to allow other programs to interact with it
-    # ( "/save") is an endpoint = public-facing bit of the program
+
+# flask.request.remote_addr

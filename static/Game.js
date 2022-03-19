@@ -70,6 +70,7 @@ export class Game {
     async function getCountryScore() {
       return await fetch("/country")
       .then(response => response.text())
+      //.then(json => json.country_score)
     } 
     
     let countryScore = await getCountryScore()
