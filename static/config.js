@@ -15,6 +15,7 @@ export const gameElements = {
   end: document.getElementById("end"),
   resultDisplay: document.getElementById("clicks2"),
   highscoreDisplay: document.getElementById("highscore-points"),
+  countryHighscoreDisplay: document.getElementById("country-points"),
   again: document.getElementById("again")
 }
 

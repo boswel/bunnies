@@ -15,7 +15,7 @@ export class Controls {
   static showFinalScore(countedClicks) {
 
     gameElements.countdown.hidden = true;
-    gameElements.countedClicksDiv.hidden = true;   //for these two, maybe just disappear the container
+    gameElements.countedClicksDiv.hidden = true;
 
     gameElements.end.hidden = false;
     gameElements.resultDisplay.textContent = countedClicks; 
@@ -26,6 +26,10 @@ export class Controls {
 
     gameElements.highscoreDisplay.textContent = localStorage.getItem("highscore");
 
+  }
+
+  static showCountryHighscore(countryScore) {
+    gameElements.countryHighscoreDisplay.textContent = countryScore; //have to get this from db once I sent the new result to db
   }
 
   static addEventListeners() {

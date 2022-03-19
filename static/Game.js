@@ -40,17 +40,17 @@ export class Game {
     Controls.addEventListeners();
   }
 
-  start() {
-    this.timer = setInterval(() => {
+  async start() {
+    this.timer = setInterval(async () => {
       this.timeLeft = Controls.decreaseTimer(this.timeLeft);
       
       if (this.timeLeft <= 0) {
-        this.end();
+        await this.end();
       }
     }, 1000);
   }
 
-  end() {
+  async end() {
     clearInterval(this.timer);
     clearTimeout(this.bunnyDelay);
 
@@ -61,14 +61,24 @@ export class Game {
     
     Controls.showFinalScore(this.countedClicks);   
     
-    //still have to inject this.countedClicks somehow
+    //still have to inject this.countedClicks somehow - or the personal highscore
     let data = `{
       "highscore": 75  
     }`
     fetch("/save", {method : "POST", body : data}); 
-  }
 
-  addRabbits(number) {
+    async function getCountryScore() {
+      return await fetch("/country")
+      .then(response => response.text())
+    } 
+    
+    let countryScore = await getCountryScore()
+
+    Controls.showCountryHighscore(countryScore);
+  }                                               
+
+
+	addRabbits(number) {
 
     for (let bunny = 0; bunny < number; bunny++) { 
       this.bunnyDelay = setTimeout(() => {
