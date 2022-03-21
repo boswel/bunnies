@@ -72,10 +72,16 @@ export class Game {
       .then(response => response.text())
       //.then(json => json.country_score)
     } 
+        
+    async function getCountryName() {
+      return await fetch("https://geolocation-db.com/json")
+      .then(response = response.json().country_name)
+    }
     
-    let countryScore = await getCountryScore()
+    let countryScore = await getCountryScore();
+    let countryName = await getCountryName();
 
-    Controls.showCountryHighscore(countryScore);
+    Controls.showCountryHighscore(countryScore, countryName);
   }                                               
 
 

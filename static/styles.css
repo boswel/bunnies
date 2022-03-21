@@ -197,7 +197,7 @@ body {
     transform: translate(-50%, -50%);
   }
   .rabbit {
-    max-height: 20%;
+    max-height: 20%; /*this makes only the largest bunnies smaller*/
   }
 }
 
@@ -212,12 +212,3 @@ body {
     font-size: 2rem;
   }
 }
-
-/* 
-bunny size
-lives size
-font size
-start position
-
-
-*/

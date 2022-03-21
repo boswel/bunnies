@@ -43,14 +43,15 @@ def get_country_score():
     with sqlite3.connect('bunnies.db') as con:
         cur = con.cursor()
         try:           # check for None
+            country = "Panama"
             cur.execute(
-                "SELECT highscore FROM bunnyscores")  # WHERE country = ?", (country))
-            # tried to make a tuple out out it because it wants one, still doesn't work
+                "SELECT highscore FROM bunnyscores WHERE country = ?", (country,))
             country_score = cur.fetchone()[0]
             return str(country_score)
-            # return {"country_score": country_score}
         except Exception:
             return "nothing there"
 
 
-# flask.request.remote_addr
+# @app.post("/ip")
+# def get_client_ip():
+#     return request.remote_addr

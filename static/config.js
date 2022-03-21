@@ -2,7 +2,7 @@ export const gameConfig = {
   numberRabbitsStart: 3,
   numberRabbitsGame: 2,
   speed: 200,
-  duration: 5
+  duration: 30
 }
 
 export const gameElements = {
@@ -16,6 +16,7 @@ export const gameElements = {
   resultDisplay: document.getElementById("clicks2"),
   highscoreDisplay: document.getElementById("highscore-points"),
   countryHighscoreDisplay: document.getElementById("country-points"),
+  countryDisplay: document.getElementById("country-name"),
   again: document.getElementById("again")
 }
 

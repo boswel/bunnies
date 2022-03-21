@@ -1,7 +1,22 @@
 export class Rabbit {
 
   image;
-  static audio = new Audio("./static/pop4.ogg");
+  static pops = [
+    "./static/pops/pop0.ogg",
+    "./static/pops/pop1.ogg",
+    "./static/pops/pop2.ogg",
+    "./static/pops/pop3.ogg",
+    "./static/pops/pop4.ogg",
+    "./static/pops/pop5.ogg",
+    "./static/pops/pop6.ogg",
+    "./static/pops/pop7.ogg",
+    "./static/pops/pop8.ogg"
+  ].map(function(audiosrc) {
+      let newpop = new Audio();
+      newpop.src = audiosrc;
+      return newpop;
+    }
+  )
   static images = [
     "./static/images/bunny0.png",
     "./static/images/bunny1.png",
@@ -25,11 +40,12 @@ export class Rabbit {
   constructor() {
     let index = Math.floor(Math.random() * this.constructor.images.length);
     this.image = this.constructor.images[index].cloneNode();
-    this.image.rabbit = this;   // to have a reference to the Rabbit object (e.g. for deleting it)
+    this.image.rabbit = this;   // to have a reference to the Rabbit object (not used at the moment)
   }
 
   makeSound() {
-    this.constructor.audio.play();  //this.constructor refers to the class itself and gives access to static properties
+    let index = Math.floor(Math.random() * this.constructor.pops.length); //////
+    this.constructor.pops[index].play();  //this.constructor refers to class itself, gives access to static properties
   }
 
   setHeight(height) { //width sets itself

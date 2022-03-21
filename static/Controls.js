@@ -28,8 +28,9 @@ export class Controls {
 
   }
 
-  static showCountryHighscore(countryScore) {
+  static showCountryHighscore(countryScore, countryName) {
     gameElements.countryHighscoreDisplay.textContent = countryScore; //have to get this from db once I sent the new result to db
+    gameElements.countryDisplay.textContent = countryName;
   }
 
   static addEventListeners() {
