@@ -7,36 +7,38 @@
   <link rel="stylesheet" href="static/styles.css">
   <!-- <link rel="manifest" href="manifest.json"> -->
   <script src="static/main.js" type="module"></script>
-  <!-- <link rel="icon" type="image/x-icon" href="favicon.ico"> -->
+  <link rel="icon" type="image/x-icon" href="static/favicon.ico">
   <title>Document</title>
 </head>
 <body>
-  <div id="bunnyspace"></div>
-  <div id="container">
-    <div id="countdown"  class="textbox"></div> 
-    <div id="counter" class="textbox">
-      <p>You clicked <span id="clicks1"> </span> bunnies!</p>
+  <div id="app-container" class="hidden">
+    <div id="bunnyspace"></div>
+    <div id="container">
+      <div id="countdown"  class="textbox"></div> 
+      <div id="counter" class="textbox">
+        <p>You clicked <span id="clicks1"> </span> bunnies!</p>
+      </div>
     </div>
-  </div>
-  <div id="lives">
-    <div id="start" class="textbox arrow">
-      <p>Click to start <br> the game!</p>
+    <div id="lives">
+      <div id="start" class="textbox arrow">
+        <p>Click to start <br> the game!</p>
+      </div>
+      <img src="./static/images/funnybunny2.png" alt="life 1 icon">
+      <img src="./static/images/funnybunny2.png" alt="life 2 icon">
+      <img src="./static/images/funnybunny2.png" alt="life 3 icon">
     </div>
-    <img src="./static/images/funnybunny2.png" alt="life 1 icon">
-    <img src="./static/images/funnybunny2.png" alt="life 2 icon">
-    <img src="./static/images/funnybunny2.png" alt="life 3 icon">
-  </div>
-  <div hidden id="end" class="textbox"> 
-    <p id="congrats">Congratulations!</p>  
-    <br>
-    <p id="result">You clicked <span id="clicks2"> </span> bunnies!</p>
-    <br>
-    <p id="personal-highscore">Personal high score: <span id="highscore-points"> </span></p>
-    <p id="country-highscore">Country high score: <span id="country-points"> </span> - <span id="country-name"> </span></p>
-    <br>
-    <button id="again" class="pushable">
-      <span class="front">Play again!</span>
-    </button>
+    <div hidden id="end" class="textbox"> 
+      <p id="congrats">Congratulations!</p>  
+      <br>
+      <p id="result">You clicked <span id="clicks2"> </span> bunnies!</p>
+      <br>
+      <p id="personal-highscore">Personal high score: <span id="highscore-points"> </span></p>
+      <p id="country-highscore">Country high score: <span id="country-points"> </span> - <span id="country-name"> </span></p>
+      <br>
+      <button id="again" class="pushable">
+        <span class="front">Play again!</span>
+      </button>
+    </div>
   </div>
 </body>
 </html>

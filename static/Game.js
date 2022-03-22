@@ -59,31 +59,13 @@ export class Game {
       image.remove();
     }
     
-    Controls.showFinalScore(this.countedClicks);   
-    
-    //still have to inject this.countedClicks somehow - or the personal highscore
-    let data = `{
-      "highscore": 75  
-    }`
-    fetch("/save", {method : "POST", body : data}); 
-
-    async function getCountryScore() {
-      return await fetch("/country")
-      .then(response => response.text())
-      //.then(json => json.country_score)
-    } 
-        
-    async function getCountryName() {
-      return await fetch("https://geolocation-db.com/json")
-      .then(response = response.json().country_name)
-    }
-    
-    let countryScore = await getCountryScore();
     let countryName = await getCountryName();
-
+    await updateHighScore();
+    let countryScore = await getCountryScore(countryName);
+  
+    Controls.showFinalScore(this.countedClicks);   
     Controls.showCountryHighscore(countryScore, countryName);
   }                                               
-
 
 	addRabbits(number) {
 
@@ -137,6 +119,26 @@ export class Game {
     });
   }
 
+}
+
+async function getCountryScore(countryName) { 
+  return await fetch("/country?" + new URLSearchParams({country:countryName}))
+  .then(response => response.text())
+}
+
+async function getCountryName() {
+  return await fetch("https://geolocation-db.com/json/")
+  .then(response => response.json())
+  .then(json => json.country_name)
+}
+
+//${countryName}, ${this.countedClicks}
+async function updateHighScore() {
+  let data = `{
+    "country": "Vatican",
+    "highscore": 666 
+  }`
+  fetch("/save", {method : "POST", body : data, headers: {"content-type": "application/json"}}); 
 }
 
 /*

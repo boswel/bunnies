@@ -12,38 +12,40 @@ def open_file_print():
 @app.post("/save")
 def save_highscore():
     with sqlite3.connect('bunnies.db') as con:
-
         # the data in the POST request is automatically stored in request
-        try:
-            newData = request.get_json()
-            country = "Italy"
-            cur = con.execute(
-                "SELECT highscore FROM bunnyscores WHERE country = ?", (country))
-            result = cur.fetchone()
-            if (result):
-                oldHighscore = result[0]
-                if (type(newData.highscore) == "int" & oldHighscore < newData.highscore):
-                    con.execute(
-                        "UPDATE bunnyscores SET highscore = ? WHERE country = ?",
-                        (newData.highscore, country)
-                    )
-            else:
-                if (type(newData.highscore) == "int"):
-                    con.execute(
-                        "INSERT INTO bunnyscores (country, highscore) VALUES (?, ?)",
-                        (country, newData.highscore)
-                    )
-            con.commit()
-        except Exception:
-            return ""
+        # try:
+        newData = request.get_json()
+        print(type(newData["highscore"]))
+        cur = con.execute(
+            "SELECT highscore FROM bunnyscores WHERE country = ?", (newData["country"],))
+        result = cur.fetchone()
+
+        if (result):
+            oldHighscore = result[0]
+            if (type(newData["highscore"]) == int & oldHighscore < newData["highscore"]):
+                con.execute(
+                    "UPDATE bunnyscores SET highscore = ? WHERE country = ?",
+                    (newData["highscore"], newData["country"])
+                )
+        else:
+            if (type(newData["highscore"]) == int):
+                con.execute(
+                    "INSERT INTO bunnyscores (country, highscore) VALUES (?, ?)",
+                    (newData["country"], newData["highscore"])
+                )
+
+        con.commit()
+        return "ok"
+        # except Exception:
+        #     return "something"
 
 
 @app.get("/country")
 def get_country_score():
     with sqlite3.connect('bunnies.db') as con:
         cur = con.cursor()
+        country = request.args.get('country')
         try:           # check for None
-            country = "Panama"
             cur.execute(
                 "SELECT highscore FROM bunnyscores WHERE country = ?", (country,))
             country_score = cur.fetchone()[0]

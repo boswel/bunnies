@@ -6,6 +6,10 @@ body {
   font-family: "Handlee";
 }
 
+.hidden {
+  visibility: hidden;
+}
+
 #bunnyspace {
   background-image: url("./images/grass3c.jpg");
   height: 100vh;
