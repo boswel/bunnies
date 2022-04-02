@@ -60,7 +60,7 @@ export class Game {
     }
     
     let countryName = await getCountryName();
-    await updateHighScore();
+    await updateHighScore(countryName, this.countedClicks);
     let countryScore = await getCountryScore(countryName);
   
     Controls.showFinalScore(this.countedClicks);   
@@ -132,13 +132,12 @@ async function getCountryName() {
   .then(json => json.country_name)
 }
 
-//${countryName}, ${this.countedClicks}
-async function updateHighScore() {
-  let data = `{
-    "country": "Vatican",
-    "highscore": 666 
-  }`
-  fetch("/save", {method : "POST", body : data, headers: {"content-type": "application/json"}}); 
+async function updateHighScore(countryName, countedClicks) {
+  let data = {
+    "country": countryName,
+    "highscore": countedClicks 
+  }
+  await fetch("/save", {method : "POST", body : JSON.stringify(data), headers: {"content-type": "application/json"}}); 
 }
 
 /*

@@ -15,14 +15,13 @@ def save_highscore():
         # the data in the POST request is automatically stored in request
         # try:
         newData = request.get_json()
-        print(type(newData["highscore"]))
         cur = con.execute(
             "SELECT highscore FROM bunnyscores WHERE country = ?", (newData["country"],))
         result = cur.fetchone()
 
         if (result):
             oldHighscore = result[0]
-            if (type(newData["highscore"]) == int & oldHighscore < newData["highscore"]):
+            if (type(newData["highscore"]) == int and oldHighscore < newData["highscore"]):
                 con.execute(
                     "UPDATE bunnyscores SET highscore = ? WHERE country = ?",
                     (newData["highscore"], newData["country"])
