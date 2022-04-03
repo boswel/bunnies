@@ -119,6 +119,27 @@ export class Game {
     });
   }
 
+  async createHighscoreTable() {
+    let table = document.createElement("table");
+    let body = table.createTBody();
+    
+    let info = await getBestCountries();
+    
+    for (let entry of info.best) {              
+			var tr = body.insertRow();
+      var td1 = tr.insertCell();
+      var td2 = tr.insertCell();
+            
+      td1.textContent = entry[0]; 
+      td2.textContent = entry[1]; 
+		}
+
+    gameElements.countries.append(table);
+
+  }
+
+
+
 }
 
 async function getCountryScore(countryName) { 
@@ -134,11 +155,26 @@ async function getCountryName() {
 
 async function updateHighScore(countryName, countedClicks) {
   let data = {
-    "country": countryName,
+    "country": countryName,   ////////////////add country code
     "highscore": countedClicks 
   }
   await fetch("/save", {method : "POST", body : JSON.stringify(data), headers: {"content-type": "application/json"}}); 
 }
+
+function getFlagEmoji(countryCode) {
+  return countryCode.toUpperCase().replace(/./g, char => 
+      String.fromCodePoint(127397 + char.charCodeAt())
+  );
+}
+
+async function getBestCountries() {
+  return await fetch("/best")
+  .then(response => response.json()) 
+}
+
+
+
+
 
 /*
 let noise = 'meow'
