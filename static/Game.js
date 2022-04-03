@@ -37,10 +37,12 @@ export class Game {
     gameElements.countedClicksDisplay.textContent = this.countedClicks; 
 
     this.makeLives();
+    this.createHighscoreTable();
     Controls.addEventListeners();
   }
 
   async start() {
+    gameElements.countryTable.hidden = true;
     this.timer = setInterval(async () => {
       this.timeLeft = Controls.decreaseTimer(this.timeLeft);
       
@@ -59,12 +61,16 @@ export class Game {
       image.remove();
     }
     
-    let countryName = await getCountryName();
-    await updateHighScore(countryName, this.countedClicks);
-    let countryScore = await getCountryScore(countryName);
+    let countryInfo = await getCountryInfo();
+    let countryName = countryInfo.country_name;
+    let countryCode = countryInfo.country_code;
+    await updateHighScore(countryName, countryCode, this.countedClicks);
+    let countryScore = await getCountryScore(countryCode);
   
     Controls.showFinalScore(this.countedClicks);   
     Controls.showCountryHighscore(countryScore, countryName);
+    gameElements.countryTable.hidden = false;
+    this.createHighscoreTable();
   }                                               
 
 	addRabbits(number) {
@@ -126,36 +132,38 @@ export class Game {
     let info = await getBestCountries();
     
     for (let entry of info.best) {              
-			var tr = body.insertRow();
-      var td1 = tr.insertCell();
-      var td2 = tr.insertCell();
-            
-      td1.textContent = entry[0]; 
-      td2.textContent = entry[1]; 
+			let tr = body.insertRow();
+      let flag = tr.insertCell();
+      let country = tr.insertCell();
+      let score = tr.insertCell();
+      
+      flag.textContent = getFlagEmoji(entry[1]);
+      country.textContent = entry[0]; 
+      score.textContent = entry[2]; 
 		}
-
+    
+    gameElements.countries.innerHTML = "";
     gameElements.countries.append(table);
-
   }
 
 
 
 }
 
-async function getCountryScore(countryName) { 
-  return await fetch("/country?" + new URLSearchParams({country:countryName}))
+async function getCountryScore(countryCode) { 
+  return await fetch("/country?" + new URLSearchParams({country:countryCode}))
   .then(response => response.text())
 }
 
-async function getCountryName() {
+async function getCountryInfo() {
   return await fetch("https://geolocation-db.com/json/")
   .then(response => response.json())
-  .then(json => json.country_name)
 }
 
-async function updateHighScore(countryName, countedClicks) {
+async function updateHighScore(countryName, countryCode, countedClicks) {
   let data = {
-    "country": countryName,   ////////////////add country code
+    "country": countryName,   
+    "country_code": countryCode,
     "highscore": countedClicks 
   }
   await fetch("/save", {method : "POST", body : JSON.stringify(data), headers: {"content-type": "application/json"}}); 

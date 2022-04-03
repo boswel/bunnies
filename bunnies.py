@@ -16,21 +16,22 @@ def save_highscore():
         try:
             newData = request.get_json()
             cur = con.execute(
-                "SELECT highscore FROM bunnyscores WHERE country = ?", (newData["country"],))
+                "SELECT highscore FROM bunnyscores WHERE code = ?", (newData["country_code"],))
             result = cur.fetchone()
 
             if (result):
                 oldHighscore = result[0]
                 if (type(newData["highscore"]) == int and oldHighscore < newData["highscore"]):
                     con.execute(
-                        "UPDATE bunnyscores SET highscore = ? WHERE country = ?",
-                        (newData["highscore"], newData["country"])
+                        "UPDATE bunnyscores SET highscore = ? WHERE code  = ?",
+                        (newData["highscore"], newData["country_code"])
                     )
             else:
                 if (type(newData["highscore"]) == int):
                     con.execute(
-                        "INSERT INTO bunnyscores (country, highscore) VALUES (?, ?)",
-                        (newData["country"], newData["highscore"])
+                        "INSERT INTO bunnyscores (country, code, highscore) VALUES (?, ?, ?)",
+                        (newData["country"], newData["country_code"],
+                         newData["highscore"])
                     )
 
             con.commit()
@@ -43,10 +44,10 @@ def save_highscore():
 def get_country_score():
     with sqlite3.connect('bunnies.db') as con:
         cur = con.cursor()
-        country = request.args.get('country')
+        code = request.args.get('country')
         try:           # check for None
             cur.execute(
-                "SELECT highscore FROM bunnyscores WHERE country = ?", (country,))
+                "SELECT highscore FROM bunnyscores WHERE code = ?", (code,))
             country_score = cur.fetchone()[0]
             return str(country_score)
         except Exception:
@@ -60,7 +61,7 @@ def get_best():
         cur.execute(
             "SELECT * FROM bunnyscores ORDER BY highscore DESC LIMIT 10")
         best = cur.fetchall()
-        print(best)
+        print(best)  # anyothercharacter
         return {"best": best}
 
 

@@ -2,7 +2,7 @@ export const gameConfig = {
   numberRabbitsStart: 3,
   numberRabbitsGame: 2,
   speed: 200,
-  duration: 15
+  duration: 10
 }
 
 export const gameElements = {
@@ -11,6 +11,7 @@ export const gameElements = {
   countdown: document.getElementById("countdown"),
   countedClicksDiv: document.getElementById("counter"),
   countedClicksDisplay: document.getElementById("clicks1"),
+  countryTable: document.getElementById("country-table"),
   countries: document.getElementById("countries"),
   ownCountry: document.getElementById("own-country"),
   start: document.getElementById("start"),
