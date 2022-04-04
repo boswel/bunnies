@@ -137,18 +137,27 @@ export class Game {
       let country = tr.insertCell();
       let score = tr.insertCell();
       
-      flag.textContent = getFlagEmoji(entry[1]);
       country.textContent = entry[0]; 
       score.textContent = entry[2]; 
+
+      let img = document.createElement('img');
+      let code = entry[1].toLowerCase();
+      
+      img.src = "https://flagcdn.com/16x12/" + code + ".png";
+      img.srcset = "https://flagcdn.com/32x24/" + code + ".png 2x, https://flagcdn.com/48x36/" + code + ".png 3x";
+      img.width = "16";
+      img.height = "12";
+      img.alt = "Flag of " + entry[0];   
+
+      flag.appendChild(img);
 		}
     
     gameElements.countries.innerHTML = "";
     gameElements.countries.append(table);
   }
-
-
-
 }
+
+
 
 async function getCountryScore(countryCode) { 
   return await fetch("/country?" + new URLSearchParams({country:countryCode}))
@@ -167,12 +176,6 @@ async function updateHighScore(countryName, countryCode, countedClicks) {
     "highscore": countedClicks 
   }
   await fetch("/save", {method : "POST", body : JSON.stringify(data), headers: {"content-type": "application/json"}}); 
-}
-
-function getFlagEmoji(countryCode) {
-  return countryCode.toUpperCase().replace(/./g, char => 
-      String.fromCodePoint(127397 + char.charCodeAt())
-  );
 }
 
 async function getBestCountries() {

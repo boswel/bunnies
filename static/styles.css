@@ -63,6 +63,14 @@ body {
   font-size: 2em;
 }
 
+#countries{
+  text-align: left;
+}
+
+#countries td:nth-of-type(3n+3) {
+  text-align: right;
+}
+
 #start {
   position: absolute;
   top: -6em;
