@@ -14,7 +14,7 @@ export class Game {
   travelTime;  // time for bunnies to leave the screen
   timeLeft;
   timer;
-  bunnyDelay;
+  bunnyDelays = {}; // it's an object because in an array, either the indexing would be messed up or there would be empty slot after the removal; in the object, the keys don't hav to be in sequence
   countedClicks = 0;
   maxBunnyHeight;
   lowestBunnyPosition; 
@@ -28,7 +28,13 @@ export class Game {
     this.travelTime = gameElements.bunnyspace.offsetWidth / this.speed;
     gameElements.bunnyspace.setAttribute("style", "--travel-time: " + this.travelTime + "s"); 
     
-    this.maxBunnyHeight = gameElements.bunnyspace.offsetHeight / 100 * 50; //px  // the magic 50 could be a var rabbitRelMaxHeight in the game settings/controls because it also determines difficulty
+    if (gameElements.bunnyspace.offsetWidth > 480) {
+      this.maxBunnyHeight = gameElements.bunnyspace.offsetHeight / 100 * 50; //px  
+    }
+    else {
+      this.maxBunnyHeight = gameElements.bunnyspace.offsetHeight / 100 * 25;
+    }
+
     this.lowestBunnyPosition = gameElements.bunnyspace.offsetHeight - this.maxBunnyHeight;
     this.rightmostBunnyPosition = gameElements.bunnyspace.offsetWidth / 3;
 
@@ -37,7 +43,7 @@ export class Game {
     gameElements.countedClicksDisplay.textContent = this.countedClicks; 
 
     this.makeLives();
-    this.createHighscoreTable();
+    Controls.createHighscoreTable();
     Controls.addEventListeners();
   }
 
@@ -53,8 +59,12 @@ export class Game {
   }
 
   async end() {
-    clearInterval(this.timer);
-    clearTimeout(this.bunnyDelay);
+    clearInterval(this.timer);    
+ 
+    for (let delay of Object.keys(this.bunnyDelays)) {
+      clearTimeout(delay);
+      delete this.bunnyDelays[delay];
+    } 
 
     let images = document.querySelectorAll("img");
     for (let image of images) {
@@ -70,13 +80,15 @@ export class Game {
     Controls.showFinalScore(this.countedClicks);   
     Controls.showCountryHighscore(countryScore, countryName);
     gameElements.countryTable.hidden = false;
-    this.createHighscoreTable();
+    Controls.createHighscoreTable();
   }                                               
 
 	addRabbits(number) {
 
     for (let bunny = 0; bunny < number; bunny++) { 
-      this.bunnyDelay = setTimeout(() => {
+      let delay = setTimeout(() => {
+
+        delete this.bunnyDelays[delay];
 
         let rabbit = new Rabbit();
         
@@ -105,6 +117,8 @@ export class Game {
         });
 
       }, 200 * bunny);
+      
+      this.bunnyDelays[delay] = delay;
     }
   }
 
@@ -124,46 +138,14 @@ export class Game {
       });
     });
   }
-
-  async createHighscoreTable() {
-    let table = document.createElement("table");
-    let body = table.createTBody();
-    
-    let info = await getBestCountries();
-    
-    for (let entry of info.best) {              
-			let tr = body.insertRow();
-      let flag = tr.insertCell();
-      let country = tr.insertCell();
-      let score = tr.insertCell();
-      
-      country.textContent = entry[0]; 
-      score.textContent = entry[2]; 
-
-      let img = document.createElement('img');
-      let code = entry[1].toLowerCase();
-      
-      img.src = "https://flagcdn.com/16x12/" + code + ".png";
-      img.srcset = "https://flagcdn.com/32x24/" + code + ".png 2x, https://flagcdn.com/48x36/" + code + ".png 3x";
-      img.width = "16";
-      img.height = "12";
-      img.alt = "Flag of " + entry[0];   
-
-      flag.appendChild(img);
-		}
-    
-    gameElements.countries.innerHTML = "";
-    gameElements.countries.append(table);
-  }
 }
 
 
-
+//these are both in Controls and in Game, at the moment -> refactor
 async function getCountryScore(countryCode) { 
   return await fetch("/country?" + new URLSearchParams({country:countryCode}))
   .then(response => response.text())
 }
-
 async function getCountryInfo() {
   return await fetch("https://geolocation-db.com/json/")
   .then(response => response.json())
@@ -182,9 +164,6 @@ async function getBestCountries() {
   return await fetch("/best")
   .then(response => response.json()) 
 }
-
-
-
 
 
 /*

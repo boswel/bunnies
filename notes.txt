@@ -1,15 +1,45 @@
 
-GameControls class
-myGameControls.setTimeLeft(number)
-"operation of the controls" as opposed "logic & state of gameplay"
+
+3) adjust country table to screen width
+4) read about heroku
+5) make "new personal high score" & "new country high score" 
+6) make donation button?
+7) make it load on the phone again
+8) adjust settings for appropriate difficulty
+9) refactor createHighscoreTable
+
+x) put the thing online
 
 
 
 
 
-better pop sound
+
+
+
+
+
+
+
+
+
+
 
 
 Foto von Kellie Churchman von Pexels
 https://www.pexels.com/de-de/foto/foto-von-grunem-gras-1001676/
 https://www.pexels.com/de-de/foto/grunes-gras-56011/
+
+bunny icon:
+https://www.i2clipart.com/clipart-bunny-icon-512x512-b217
+
+bunny0: https://www.pngmart.com/image/125122
+bunny1: http://clipart-library.com/clip-art/bunny-transparent-background-17.htm
+bunny2: http://stickpng.com/img/animals/rabbits/rabbit-cute-ginger
+bunny3: https://www.pngkey.com/detail/u2q8q8q8a9w7q8y3_rabbit-bunny-png-image-background-bunny-transparent/
+bunny4: http://stickpng.com/img/animals/rabbits/small-cute-rabbit
+bunny5: http://clipart-library.com/clip-art/bunny-transparent-background-21.htm
+https://www.hiclipart.com/free-transparent-background-png-clipart-mkovh/download
+https://www.hiclipart.com/free-transparent-background-png-clipart-xyeli/download
+bunny8: http://clipart-library.com/clip-art/bunny-transparent-background-11.htm
+bunny9: https://www.hiclipart.com/free-transparent-background-png-clipart-ixulp
