@@ -7,6 +7,7 @@
 7) make it load on the phone again
 8) adjust settings for appropriate difficulty
 9) refactor createHighscoreTable
+10) getCountryScore & getBestCountries: get JSON with list of objects, not of arrays
 
 x) put the thing online
 

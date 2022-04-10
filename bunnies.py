@@ -47,9 +47,10 @@ def get_country_score():
         code = request.args.get('country')
         try:           # check for None
             cur.execute(
-                "SELECT highscore FROM bunnyscores WHERE code = ?", (code,))
-            country_score = cur.fetchone()[0]
-            return str(country_score)
+                "SELECT * FROM bunnyscores WHERE code = ?", (code,))
+            # instead of fetchone because then the format is the same as in get_best (list)
+            country_info = cur.fetchall()
+            return {"info": country_info}
         except Exception:
             return "no highscore found"
 
@@ -60,9 +61,9 @@ def get_best():
         cur = con.cursor()
         cur.execute(
             "SELECT * FROM bunnyscores ORDER BY highscore DESC LIMIT 10")
-        best = cur.fetchall()
-        print(best)  # anyothercharacter
-        return {"best": best}
+        country_info = cur.fetchall()
+        print(country_info)  # anyothercharacter
+        return {"info": country_info}
 
 
 # @app.post("/ip")

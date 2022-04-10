@@ -9,7 +9,11 @@ export class Game {
   numberRabbitsGame;
   speed;
   duration;
-  
+
+  //country info
+  countryName;
+  countryCode;
+
   // other properties
   travelTime;  // time for bunnies to leave the screen
   timeLeft;
@@ -24,6 +28,23 @@ export class Game {
     for (let option of Object.keys(gameConfig)) {
       this[option] = gameConfig[option];
     }
+    
+    gameElements.countries.innerHTML = "";
+    getBestCountries()
+    .then(data => Controls.createHighscoreTable(data))
+    .then(table => gameElements.countries.append(table))
+    
+    gameElements.ownCountry.innerHTML = "";
+    
+    getCountryInfo()
+    .then(json => {
+      this.countryName = json.country_name;
+      this.countryCode = json.country_code;
+      return this.countryCode
+    })
+    .then(countryCode => getCountryScore(countryCode))
+    .then(data => Controls.createHighscoreTable(data))
+    .then(table => gameElements.ownCountry.append(table))
 
     this.travelTime = gameElements.bunnyspace.offsetWidth / this.speed;
     gameElements.bunnyspace.setAttribute("style", "--travel-time: " + this.travelTime + "s"); 
@@ -43,7 +64,6 @@ export class Game {
     gameElements.countedClicksDisplay.textContent = this.countedClicks; 
 
     this.makeLives();
-    Controls.createHighscoreTable();
     Controls.addEventListeners();
   }
 
@@ -71,16 +91,25 @@ export class Game {
       image.remove();
     }
     
-    let countryInfo = await getCountryInfo();
-    let countryName = countryInfo.country_name;
-    let countryCode = countryInfo.country_code;
-    await updateHighScore(countryName, countryCode, this.countedClicks);
-    let countryScore = await getCountryScore(countryCode);
-  
+    await updateHighScore(this.countryName, this.countryCode, this.countedClicks);
     Controls.showFinalScore(this.countedClicks);   
-    Controls.showCountryHighscore(countryScore, countryName);
+    
     gameElements.countryTable.hidden = false;
-    Controls.createHighscoreTable();
+
+    gameElements.countries.innerHTML = "";
+    getBestCountries()
+    .then(data => {
+      let table = Controls.createHighscoreTable(data);
+      gameElements.countries.append(table);
+    })
+        
+    gameElements.ownCountry.innerHTML = "";
+    getCountryScore(this.countryCode)
+    .then(data => {
+      let table = Controls.createHighscoreTable(data);
+      gameElements.ownCountry.append(table);
+      
+    })
   }                                               
 
 	addRabbits(number) {
@@ -142,12 +171,13 @@ export class Game {
 
 
 //these are both in Controls and in Game, at the moment -> refactor
-async function getCountryScore(countryCode) { 
-  return await fetch("/country?" + new URLSearchParams({country:countryCode}))
-  .then(response => response.text())
-}
 async function getCountryInfo() {
   return await fetch("https://geolocation-db.com/json/")
+  .then(response => response.json())
+}
+
+async function getCountryScore(countryCode) { 
+  return await fetch("/country?" + new URLSearchParams({country:countryCode}))
   .then(response => response.json())
 }
 
