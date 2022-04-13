@@ -2,7 +2,7 @@ export const gameConfig = {
   numberRabbitsStart: 3,
   numberRabbitsGame: 2,
   speed: 200,
-  duration: 10
+  duration: 15
 }
 
 export const gameElements = {

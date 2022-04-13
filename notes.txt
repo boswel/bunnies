@@ -2,7 +2,7 @@
 
 3) adjust country table to screen width
 4) read about heroku
-5) make "new country high score" 
+
 6) make donation button?
 7) adjust settings for appropriate difficulty
 8) decrease constructor size
