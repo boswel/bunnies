@@ -20,12 +20,19 @@ export class Controls {
     gameElements.end.hidden = false;
     gameElements.resultDisplay.textContent = countedClicks; 
     
-    if (countedClicks > localStorage.getItem("highscore")) {  
+    if (countedClicks > localStorage.getItem("highscore")) { 
+        gameElements.personalCarrots.hidden = false;
         localStorage.setItem("highscore", countedClicks);      
       }                                                       
 
     gameElements.highscoreDisplay.textContent = localStorage.getItem("highscore");
 
+  }
+
+  static showFinalCarrotsCountry(oldScore, countedClicks) { 
+    if (countedClicks > oldScore) { 
+        gameElements.countryCarrots.hidden = false; 
+      }    
   }
 
   static createHighscoreTable(data) { 

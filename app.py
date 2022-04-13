@@ -41,7 +41,7 @@ def save_highscore():
 
 
 @app.get("/country")
-def get_country_score():
+def get_country_records():
     with sqlite3.connect('bunnies.db') as con:
         cur = con.cursor()
         code = request.args.get('country')

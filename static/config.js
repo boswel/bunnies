@@ -18,6 +18,8 @@ export const gameElements = {
   end: document.getElementById("end"),
   resultDisplay: document.getElementById("clicks2"),
   highscoreDisplay: document.getElementById("highscore-points"),
+  personalCarrots: document.getElementById("personal-carrots"),
+  countryCarrots: document.getElementById("country-carrots"),
   again: document.getElementById("again")
 }
 

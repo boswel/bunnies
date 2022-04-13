@@ -1,3 +1,4 @@
+import * as Db from "./dbfunctions.js";
 import { gameConfig, gameElements } from "./config.js";
 import { Controls } from "./Controls.js";
 import { Rabbit } from "./Rabbit.js";
@@ -30,19 +31,19 @@ export class Game {
     }
     
     gameElements.countries.innerHTML = "";
-    getBestCountries()
+    Db.getBestCountries()
     .then(data => Controls.createHighscoreTable(data))
     .then(table => gameElements.countries.append(table))
     
     gameElements.ownCountry.innerHTML = "";
     
-    getCountryInfo()
+    Db.getCountryInfo()
     .then(json => {
       this.countryName = json.country_name;
       this.countryCode = json.country_code;
       return this.countryCode
     })
-    .then(countryCode => getCountryScore(countryCode))
+    .then(countryCode => Db.getCountryRecords(countryCode))
     .then(data => Controls.createHighscoreTable(data))
     .then(table => gameElements.ownCountry.append(table))
 
@@ -91,20 +92,23 @@ export class Game {
       image.remove();
     }
     
-    await updateHighScore(this.countryName, this.countryCode, this.countedClicks);
+    let oldRecords = await Db.getCountryRecords(this.countryCode);
+    Controls.showFinalCarrotsCountry(oldRecords.info[0][2], this.countedClicks);
+    
+    await Db.updateHighScore(this.countryName, this.countryCode, this.countedClicks);
     Controls.showFinalScore(this.countedClicks);   
     
     gameElements.countryTable.hidden = false;
 
     gameElements.countries.innerHTML = "";
-    getBestCountries()
+    Db.getBestCountries()
     .then(data => {
       let table = Controls.createHighscoreTable(data);
       gameElements.countries.append(table);
     })
         
     gameElements.ownCountry.innerHTML = "";
-    getCountryScore(this.countryCode)
+    Db.getCountryRecords(this.countryCode)
     .then(data => {
       let table = Controls.createHighscoreTable(data);
       gameElements.ownCountry.append(table);
@@ -169,31 +173,6 @@ export class Game {
   }
 }
 
-
-//these are both in Controls and in Game, at the moment -> refactor
-async function getCountryInfo() {
-  return await fetch("https://geolocation-db.com/json/")
-  .then(response => response.json())
-}
-
-async function getCountryScore(countryCode) { 
-  return await fetch("/country?" + new URLSearchParams({country:countryCode}))
-  .then(response => response.json())
-}
-
-async function updateHighScore(countryName, countryCode, countedClicks) {
-  let data = {
-    "country": countryName,   
-    "country_code": countryCode,
-    "highscore": countedClicks 
-  }
-  await fetch("/save", {method : "POST", body : JSON.stringify(data), headers: {"content-type": "application/json"}}); 
-}
-
-async function getBestCountries() {
-  return await fetch("/best")
-  .then(response => response.json()) 
-}
 
 
 /*
