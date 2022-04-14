@@ -46,17 +46,17 @@ export class Controls {
       let country = tr.insertCell();
       let score = tr.insertCell();
       
-      country.textContent = entry[0]; 
-      score.textContent = entry[2]; 
-
+      country.textContent = entry.country; 
+      score.textContent = entry.highscore; 
+      
       let img = document.createElement('img');
-      let code = entry[1].toLowerCase();
+      let code = entry.code.toLowerCase();
       
       img.src = "https://flagcdn.com/16x12/" + code + ".png";
       img.srcset = "https://flagcdn.com/32x24/" + code + ".png 2x, https://flagcdn.com/48x36/" + code + ".png 3x";
       img.width = "16";
       img.height = "12";
-      img.alt = "Flag of " + entry[0];   
+      img.alt = "Flag of " + entry.country;   
 
       flag.appendChild(img);
 		}

@@ -43,13 +43,14 @@ def save_highscore():
 @app.get("/country")
 def get_country_records():
     with sqlite3.connect('bunnies.db') as con:
+        con.row_factory = sqlite3.Row
         cur = con.cursor()
         code = request.args.get('country')
         try:           # check for None
             cur.execute(
                 "SELECT * FROM bunnyscores WHERE code = ?", (code,))
-            # instead of fetchone because then the format is the same as in get_best (list)
-            country_info = cur.fetchall()
+            # fetchall instead of fetchone because then the format is the same as in get_best (list)
+            country_info = [dict(row) for row in cur.fetchall()]
             return {"info": country_info}
         except Exception:
             return "no highscore found"
@@ -58,11 +59,11 @@ def get_country_records():
 @app.get("/best")
 def get_best():
     with sqlite3.connect('bunnies.db') as con:
+        con.row_factory = sqlite3.Row
         cur = con.cursor()
         cur.execute(
             "SELECT * FROM bunnyscores ORDER BY highscore DESC LIMIT 10")
-        country_info = cur.fetchall()
-        print(country_info)  # anyothercharacter
+        country_info = [dict(row) for row in cur.fetchall()]
         return {"info": country_info}
 
 

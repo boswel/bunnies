@@ -93,7 +93,7 @@ export class Game {
     }
     
     let oldRecords = await Db.getCountryRecords(this.countryCode);
-    Controls.showFinalCarrotsCountry(oldRecords.info[0][2], this.countedClicks);
+    Controls.showFinalCarrotsCountry(oldRecords.info[0].highscore, this.countedClicks);
     
     await Db.updateHighScore(this.countryName, this.countryCode, this.countedClicks);
     Controls.showFinalScore(this.countedClicks);   
