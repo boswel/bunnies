@@ -2,11 +2,9 @@
 
 3) adjust country table to screen width
 4) read about heroku
-
 6) make donation button?
 7) adjust settings for appropriate difficulty
 8) decrease constructor size
-9) return from /country and /best a list of records by column name 
 
 x) put the thing online
 

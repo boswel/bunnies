@@ -3,7 +3,7 @@
 body {
   margin: 0;
   user-select: none;
-  font-family: "Handlee";
+  font-family: "Handlee", "Arial", sans-serif;
 }
 
 .hidden {
@@ -18,7 +18,7 @@ body {
   position: relative;
 }
 
-#container {
+#game-info {
   position: absolute;
   top: 1%;
   display: flex;
