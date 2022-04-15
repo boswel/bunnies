@@ -46,7 +46,7 @@ export class Controls {
       let country = tr.insertCell();
       let score = tr.insertCell();
       
-      country.textContent = entry.country; 
+      country.textContent = entry.name_en; 
       score.textContent = entry.highscore; 
       
       let img = document.createElement('img');
@@ -56,7 +56,7 @@ export class Controls {
       img.srcset = "https://flagcdn.com/32x24/" + code + ".png 2x, https://flagcdn.com/48x36/" + code + ".png 3x";
       img.width = "16";
       img.height = "12";
-      img.alt = "Flag of " + entry.country;   
+      img.alt = "Flag of " + entry.name_en;   
 
       flag.appendChild(img);
 		}

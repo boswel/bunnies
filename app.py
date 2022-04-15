@@ -29,9 +29,12 @@ def save_highscore():
             else:
                 if (type(newData["highscore"]) == int):
                     con.execute(
-                        "INSERT INTO bunnyscores (country, code, highscore) VALUES (?, ?, ?)",
-                        (newData["country"], newData["country_code"],
-                         newData["highscore"])
+                        "INSERT INTO bunnyscores (code, highscore) VALUES (?, ?)",
+                        (newData["country_code"], newData["highscore"])
+                    )
+                    con.execute(
+                        "INSERT INTO countrynames (code, name_en) VALUES (?, ?)",
+                        (newData["country_code"], newData["country"])
                     )
 
             con.commit()
@@ -46,14 +49,15 @@ def get_country_records():
         con.row_factory = sqlite3.Row
         cur = con.cursor()
         code = request.args.get('country')
-        try:           # check for None
+        try:
             cur.execute(
-                "SELECT * FROM bunnyscores WHERE code = ?", (code,))
+                "SELECT * FROM bunnyscores NATURAL JOIN countrynames WHERE code = ?", (code,))
             # fetchall instead of fetchone because then the format is the same as in get_best (list)
             country_info = [dict(row) for row in cur.fetchall()]
             return {"info": country_info}
         except Exception:
-            return "no highscore found"
+            return {"info": [],
+                    "error": "no high score found"}
 
 
 @app.get("/best")
@@ -61,10 +65,14 @@ def get_best():
     with sqlite3.connect('bunnies.db') as con:
         con.row_factory = sqlite3.Row
         cur = con.cursor()
-        cur.execute(
-            "SELECT * FROM bunnyscores ORDER BY highscore DESC LIMIT 10")
-        country_info = [dict(row) for row in cur.fetchall()]
-        return {"info": country_info}
+        try:
+            cur.execute(
+                "SELECT * FROM bunnyscores NATURAL JOIN countrynames ORDER BY highscore DESC LIMIT 10")
+            country_info = [dict(row) for row in cur.fetchall()]
+            return {"info": country_info}
+        except Exception:
+            return {"info": [],
+                    "error": "no best-of list found"}
 
 
 # @app.post("/ip")

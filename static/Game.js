@@ -81,7 +81,7 @@ export class Game {
 
   async end() {
     clearInterval(this.timer);    
- 
+
     for (let delay of Object.keys(this.bunnyDelays)) {
       clearTimeout(delay);
       delete this.bunnyDelays[delay];
@@ -93,7 +93,8 @@ export class Game {
     }
     
     let oldRecords = await Db.getCountryRecords(this.countryCode);
-    Controls.showFinalCarrotsCountry(oldRecords.info[0].highscore, this.countedClicks);
+    let oldHighScore = oldRecords.info.length ? oldRecords.info[0].highscore : 0
+    Controls.showFinalCarrotsCountry(oldHighScore, this.countedClicks);
     
     await Db.updateHighScore(this.countryName, this.countryCode, this.countedClicks);
     Controls.showFinalScore(this.countedClicks);   
