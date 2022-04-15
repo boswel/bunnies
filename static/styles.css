@@ -1,9 +1,23 @@
 @import url("https://fonts.googleapis.com/css2?family=Handlee&display=swap");
 
+*, *::before, *::after {
+  box-sizing: inherit;
+}
+
+html {
+  height: 100%;
+}
+
 body {
+  height: 100%;
   margin: 0;
   user-select: none;
   font-family: "Handlee", "Arial", sans-serif;
+  box-sizing: border-box;
+}
+
+#app-container {
+  height: 100%;
 }
 
 .hidden {
@@ -12,8 +26,8 @@ body {
 
 #bunnyspace {
   background-image: url("./images/grass3c.jpg");
-  height: 100vh;
-  width: 100vw;
+  height: 100%;
+  width: 100%;
   overflow: hidden;
   position: relative; /*because bunnyspace has to be offset parent for the bunnies*/
 }
@@ -22,23 +36,23 @@ body {
   position: absolute;
   top: 0;
   left: 0;
-  height: 100vh;
-  width: 100vw;
+  height: 100%;
+  width: 100%;
 }
 
 #game-info {
-  position: absolute;
-  top: 1%;
   display: flex;
   flex-direction: column;
   align-items: stretch;
+  max-height: 100vh;
+  width: max-content;
 }
 
 .textbox {
-  position: relative;
+  position: relative; /*set as offset parent for arrow*/
   background-color: cornsilk;
   padding: 0.5rem;
-  margin: 0.5rem;
+  margin: 0.3rem 0.3rem 0 0.3rem;
   border: darkgreen solid 0.2rem;
   border-radius: 0.3rem;
   text-align: center;
@@ -71,6 +85,11 @@ body {
   font-size: 2em;
 }
 
+#countries {
+  overflow-y: auto;
+  max-height: 25vh;
+}
+
 #country-table table {
   text-align: left;
   width: 100%;
@@ -80,19 +99,12 @@ body {
   text-align: right;
 }
 
-#own-country table {
-  border-top: darkgreen solid 0.1rem;
+#country-table tr td:nth-of-type(1) {
+  width: 2em;
 }
 
-#start {
-  position: absolute;
-  top: -6em;
-  left: -1.5em;
-  animation: bounce-start 1s ease-in-out infinite;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: max-content;
+#own-country table {
+  border-top: darkgreen solid 0.1rem;
 }
 
 #lives {
@@ -106,19 +118,21 @@ body {
   cursor: pointer;
 }
 
+#start {
+  position: absolute;
+  top: -6em;
+  left: -1.5em;
+  animation: bounce-start 1s ease-in-out infinite;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
 .rabbit {
   position: absolute;
   cursor: pointer;
   min-height: 10%;
   animation: move var(--travel-time) forwards linear, bounce 1s ease-in;
-}
-
-#end {
-  position: absolute;
-  width: 50%;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
 }
 
 .pushable {
@@ -154,11 +168,12 @@ body {
 }
 
 #congrats {
-  margin: 1rem 0 0 0;
+  margin: 1rem;
   color: darkgreen;
   font-size: 2.5rem;
   font-weight: normal;
 }
+
 #result {
   font-size: 1.5rem;
   font-weight: normal;
@@ -219,17 +234,23 @@ body {
   }
 }
 
-@media screen and (max-width: 480px) {
+@media (min-width: 600px) and (min-height: 480px) {
+  #countries {  
+    max-height: unset;
+  }
+}
+
+@media (min-width: 600px) {
   #end {
     position: absolute;
-    width: 80%;
+    width: max-content;
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
   }
 }
 
-@media screen and (max-width: 300px) {
+@media (max-width: 300px) {
   #lives {
     font-size: 0.75rem;
   }
