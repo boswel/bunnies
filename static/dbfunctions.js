@@ -12,7 +12,7 @@ export async function updateHighScore(countryName, countryCode, countedClicks) {
   let data = {
     "country": countryName,   
     "country_code": countryCode,
-    "highscore": countedClicks 
+    "score": countedClicks 
   }
   await fetch("/save", {method : "POST", body : JSON.stringify(data), headers: {"content-type": "application/json"}}); 
 }
@@ -21,3 +21,15 @@ export async function getBestCountries() {
   return await fetch("/best")
   .then(response => response.json()) 
 }
+/*
+export async function addToBunnyClicks(countedClicks) {
+  let data = {
+    "country_code": countryCode,
+    "clicks": countedClicks 
+  }
+  await fetch("/clicks", {method : "POST", body : JSON.stringify(data), headers: {"content-type": "application/json"}}); 
+}
+
+export async function addToGameCount() {
+
+}*/
