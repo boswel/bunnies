@@ -64,11 +64,10 @@ export class Controls {
     return table;
   }
   
-  static addEventListeners() {
-    gameElements.again.addEventListener("click", (event) => {
-      window.location.reload(true);  
-    });
-  }  
+  static displayErrorMessage() {
+    gameElements.error.hidden = false;
+    gameElements.lives.hidden = true;
+  }
 }
 
 

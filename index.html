@@ -41,11 +41,17 @@
         <p id="personal-highscore">Personal high score: <span id="highscore-points"> </span></p>
         <p hidden id="personal-carrots">🥕 New personal high score! 🥕</p>
         <p hidden id="country-carrots">🥕🥕🥕 New country high score! 🥕🥕🥕</p>
-        <button id="again" class="pushable">
+        <button id="again" class="pushable" onclick="location.reload()">
           <span class="front">Play again!</span>
         </button>
       </div>
     
+      <div hidden id="error" class="textbox">
+        <p>Sorry, something went wrong. <br> Please reload the page.</p>
+        <button id="reload" class="pushable" onclick="location.reload()">
+          <span class="front">Reload</span>
+        </button>
+      </div>
     </div>
   </div>
 </body>

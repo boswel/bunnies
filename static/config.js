@@ -7,7 +7,8 @@ export const gameConfig = {
 
 export const gameElements = {
   bunnyspace: document.getElementById("bunnyspace"),
-  lives: document.querySelectorAll("#lives img"),
+  lives: document.getElementById("lives"),
+  livesimages: document.querySelectorAll("#lives img"),
   countdown: document.getElementById("countdown"),
   countedClicksDiv: document.getElementById("counter"),
   countedClicksDisplay: document.getElementById("clicks1"),
@@ -20,6 +21,7 @@ export const gameElements = {
   highscoreDisplay: document.getElementById("highscore-points"),
   personalCarrots: document.getElementById("personal-carrots"),
   countryCarrots: document.getElementById("country-carrots"),
-  again: document.getElementById("again")
+  again: document.getElementById("again"),
+  error: document.getElementById("error")
 }
 
