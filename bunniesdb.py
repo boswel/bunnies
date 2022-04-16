@@ -1,10 +1,18 @@
 import psycopg2
 import psycopg2.extras
-from os import environ
+from os import getenv
+from dotenv import load_dotenv
+
+load_dotenv()
+
+dbname = getenv('DBNAME')
+user = getenv('DBUSER')
+host = getenv('DBHOST')
+password = getenv('DBPASSWORD')
 
 
 def connect_to_db():
-    with psycopg2.connect(dbname='bunnies', user='bunnies', host='localhost', password=environ['BUNNIES']) as con:
+    with psycopg2.connect(dbname=dbname, user=user, host=host, password=password) as con:
         cur = con.cursor(cursor_factory=psycopg2.extras.DictCursor)
         return (con, cur)
 
