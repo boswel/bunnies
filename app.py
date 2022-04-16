@@ -1,5 +1,5 @@
 from flask import Flask, send_file, request
-import sqlite3
+from bunniesdb import connect_to_db
 
 app = Flask(__name__)
 
@@ -11,102 +11,99 @@ def open_file_print():
 
 @app.post("/save")
 def save_highscore():
-    with sqlite3.connect('bunnies.db') as con:
-        # the data in the POST request is automatically stored in request
-        try:
-            newData = request.get_json()
+    (con, cur) = connect_to_db()
 
-            # set new high score
-            cur = con.execute(
-                "SELECT highscore FROM bunnyscores WHERE code = ?", (newData["country_code"],))
-            result = cur.fetchone()
+    # the data in the POST request is automatically stored in request
+    try:
+        newData = request.get_json()
 
-            if (result):
-                oldHighscore = result[0]
-                if (type(newData["score"]) == int and oldHighscore < newData["score"]):
-                    con.execute(
-                        "UPDATE bunnyscores SET highscore = ? WHERE code  = ?",
-                        (newData["score"], newData["country_code"])
-                    )
-            else:
-                if (type(newData["score"]) == int):
-                    con.execute(
-                        "INSERT INTO bunnyscores (code, highscore) VALUES (?, ?)",
-                        (newData["country_code"], newData["score"])
-                    )
-                    con.execute(
-                        "INSERT INTO countrynames (code, name_en) VALUES (?, ?)",
-                        (newData["country_code"], newData["country"])
-                    )
+        # set new high score
+        cur.execute(
+            "SELECT highscore FROM bunnyscores WHERE code = %s;", (newData["country_code"],))
+        result = cur.fetchone()
 
-            # add score to number of clicks per country
-            cur = con.execute(
-                "SELECT clicks FROM bunniesclicked WHERE code = ?", (newData["country_code"],))
-            result = cur.fetchone()
-
-            if(result):
-                con.execute(
-                    "UPDATE bunniesclicked SET clicks = ? WHERE code  = ?",
-                    (newData["score"] + result[0], newData["country_code"])
+        if (result):
+            oldHighscore = result[0]
+            if (type(newData["score"]) == int and oldHighscore < newData["score"]):
+                cur.execute(
+                    "UPDATE bunnyscores SET highscore = %s WHERE code  = %s;",
+                    (newData["score"], newData["country_code"])
                 )
-            else:
-                con.execute(
-                    "INSERT INTO bunniesclicked (code, clicks) VALUES (?, ?)",
+        else:
+            if (type(newData["score"]) == int):
+                cur.execute(
+                    "INSERT INTO bunnyscores (code, highscore) VALUES (%s, %s);",
                     (newData["country_code"], newData["score"])
                 )
-
-            # add 1 to the number of games played per country
-            cur = con.execute(
-                "SELECT games FROM gamesplayed WHERE code = ?", (newData["country_code"],))
-            result = cur.fetchone()
-
-            if(result):
-                con.execute(
-                    "UPDATE gamesplayed SET games = ? WHERE code  = ?",
-                    (result[0] + 1, newData["country_code"])
-                )
-            else:
-                con.execute(
-                    "INSERT INTO gamesplayed (code, games) VALUES (?, ?)",
-                    (newData["country_code"], 1)
+                cur.execute(
+                    "INSERT INTO countrynames (code, name_en) VALUES (%s, %s);",
+                    (newData["country_code"], newData["country"])
                 )
 
-            con.commit()
-            return "ok"
-        except Exception:
-            return "something didn't work"
+        # add score to number of clicks per country
+        cur.execute(
+            "SELECT clicks FROM bunniesclicked WHERE code = %s;", (newData["country_code"],))
+        result = cur.fetchone()
+
+        if(result):
+            cur.execute(
+                "UPDATE bunniesclicked SET clicks = %s WHERE code  = %s;",
+                (newData["score"] + result[0], newData["country_code"])
+            )
+        else:
+            cur.execute(
+                "INSERT INTO bunniesclicked (code, clicks) VALUES (%s, %s);",
+                (newData["country_code"], newData["score"])
+            )
+
+        # add 1 to the number of games played per country
+        cur.execute(
+            "SELECT games FROM gamesplayed WHERE code = %s;", (newData["country_code"],))
+        result = cur.fetchone()
+
+        if(result):
+            cur.execute(
+                "UPDATE gamesplayed SET games = %s WHERE code  = %s;",
+                (result[0] + 1, newData["country_code"])
+            )
+        else:
+            cur.execute(
+                "INSERT INTO gamesplayed (code, games) VALUES (%s, %s);",
+                (newData["country_code"], 1)
+            )
+
+        con.commit()
+        return "ok"
+    except Exception:
+        return "something didn't work"
 
 
 @app.get("/country")
 def get_country_records():
-    with sqlite3.connect('bunnies.db') as con:
-        con.row_factory = sqlite3.Row
-        cur = con.cursor()
-        code = request.args.get('country')
-        try:
-            cur.execute(
-                "SELECT * FROM bunnyscores NATURAL JOIN countrynames WHERE code = ?", (code,))
-            # fetchall instead of fetchone because then the format is the same as in get_best (list)
-            country_info = [dict(row) for row in cur.fetchall()]
-            return {"info": country_info}
-        except Exception:
-            return {"info": [],
-                    "error": "no high score found"}
+    (con, cur) = connect_to_db()
+    code = request.args.get('country')
+    try:
+        cur.execute(
+            "SELECT * FROM bunnyscores NATURAL JOIN countrynames WHERE code = %s;", (code,))
+        # fetchall instead of fetchone because then the format is the same as in get_best (list)
+        country_info = [dict(row) for row in cur.fetchall()]
+        return {"info": country_info}
+    except Exception:
+        return {"info": [],
+                "error": "no high score found"}
 
 
 @app.get("/best")
 def get_best():
-    with sqlite3.connect('bunnies.db') as con:
-        con.row_factory = sqlite3.Row
-        cur = con.cursor()
-        try:
-            cur.execute(
-                "SELECT * FROM bunnyscores NATURAL JOIN countrynames ORDER BY highscore DESC LIMIT 10")
-            country_info = [dict(row) for row in cur.fetchall()]
-            return {"info": country_info}
-        except Exception:
-            return {"info": [],
-                    "error": "no best-of list found"}
+    (con, cur) = connect_to_db()
+    try:
+        cur.execute(
+            "SELECT * FROM bunnyscores NATURAL JOIN countrynames ORDER BY highscore DESC LIMIT 10;")
+        country_info = [dict(row) for row in cur.fetchall()]
+        return {"info": country_info}
+    except Exception:
+        return {"info": [],
+                "error": "no best-of list found"}
 
 
 # @app.post("/ip")
