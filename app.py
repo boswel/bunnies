@@ -17,6 +17,9 @@ def save_highscore():
     try:
         newData = request.get_json()
 
+        if newData["score"] > 300:
+            return "not ok"
+
         # set new high score
         cur.execute(
             "SELECT highscore FROM bunnyscores WHERE code = %s;", (newData["country_code"],))
