@@ -184,6 +184,7 @@ body {
   margin: 0.4rem;
 }
 
+
 @keyframes move {
   to {
     left: 100%;
@@ -242,7 +243,7 @@ body {
 }
 
 @media (min-width: 600px) {
-  #end {
+  #end, #error {
     position: absolute;
     width: max-content;
     left: 50%;

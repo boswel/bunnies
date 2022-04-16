@@ -5,7 +5,14 @@ export async function getCountryInfo() {
 
 export async function getCountryRecords(countryCode) { 
   return await fetch("/country?" + new URLSearchParams({country:countryCode}))
-  .then(response => response.json())
+  .then(response => {
+    if (response.ok) {
+      return response.json()
+    }
+    else {
+      Promise.reject("Something went wrong. Please reload the page.")
+    }
+  });
 }
 
 export async function updateHighScore(countryName, countryCode, countedClicks) {
@@ -21,15 +28,3 @@ export async function getBestCountries() {
   return await fetch("/best")
   .then(response => response.json()) 
 }
-/*
-export async function addToBunnyClicks(countedClicks) {
-  let data = {
-    "country_code": countryCode,
-    "clicks": countedClicks 
-  }
-  await fetch("/clicks", {method : "POST", body : JSON.stringify(data), headers: {"content-type": "application/json"}}); 
-}
-
-export async function addToGameCount() {
-
-}*/

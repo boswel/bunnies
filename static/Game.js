@@ -46,6 +46,7 @@ export class Game {
     .then(countryCode => Db.getCountryRecords(countryCode))
     .then(data => Controls.createHighscoreTable(data))
     .then(table => gameElements.ownCountry.append(table))
+    .catch(error => Controls.displayErrorMessage())
 
     this.travelTime = gameElements.bunnyspace.offsetWidth / this.speed;
     gameElements.bunnyspace.setAttribute("style", "--travel-time: " + this.travelTime + "s"); 
@@ -65,7 +66,6 @@ export class Game {
     gameElements.countedClicksDisplay.textContent = this.countedClicks; 
 
     this.makeLives();
-    Controls.addEventListeners();
   }
 
   async start() {
@@ -159,7 +159,7 @@ export class Game {
   makeLives() {
     let first = true;
 
-    gameElements.lives.forEach((item) => {
+    gameElements.livesimages.forEach((item) => {
       item.addEventListener("click", (event) => {
         item.remove();    
         this.addRabbits(this.numberRabbitsStart);  
