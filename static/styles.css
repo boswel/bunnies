@@ -132,6 +132,7 @@ body {
 .rabbit {
   position: absolute;
   cursor: pointer;
+  user-select: none; /*for brave browser(?) */
   min-height: 10%;
   animation: move var(--travel-time) forwards linear, bounce 1s ease-in;
 }
