@@ -11,7 +11,7 @@ html {
 body {
   height: 100%;
   margin: 0;
-  user-select: none;
+  user-select: none; /* does not work for specific versions of Android 4.0 */
   font-family: "Handlee", "Arial", sans-serif;
   box-sizing: border-box;
 }
@@ -132,7 +132,6 @@ body {
 .rabbit {
   position: absolute;
   cursor: pointer;
-  user-select: none; /*for brave browser(?) */
   min-height: 10%;
   animation: move var(--travel-time) forwards linear, bounce 1s ease-in;
 }

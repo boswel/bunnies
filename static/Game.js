@@ -144,7 +144,7 @@ export class Game {
           this.travelTime * 1000
         );
 
-        rabbit.image.addEventListener("click", (event) => {
+        rabbit.image.addEventListener("mousedown", (event) => {
           this.addRabbits(this.numberRabbitsGame);
           rabbit.detach();
           this.countedClicks = Controls.incrementBunnyCount(this.countedClicks);
@@ -160,15 +160,17 @@ export class Game {
     let first = true;
 
     gameElements.livesimages.forEach((item) => {
-      item.addEventListener("click", (event) => {
-        item.remove();    
-        this.addRabbits(this.numberRabbitsStart);  
-        
+      item.addEventListener("mousedown", (event) => {
+        if (!gameElements.bunnyspace.children.length) {
+          item.remove();    
+          this.addRabbits(this.numberRabbitsStart);  
+        }
+
         if (first) {
           gameElements.start.remove();
           this.start();
           first = false;
-        }
+        }        
       });
     });
   }
