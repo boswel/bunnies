@@ -11,7 +11,7 @@ html {
 body {
   height: 100%;
   margin: 0;
-  user-select: none;
+  user-select: none; /* does not work for specific versions of Android 4.0 */
   font-family: "Handlee", "Arial", sans-serif;
   box-sizing: border-box;
 }
@@ -115,14 +115,14 @@ body {
 }
 
 #lives img {
-  width: 6em;
+  width: 4em;
   cursor: pointer;
 }
 
 #start {
   position: absolute;
   top: -6em;
-  left: -1.5em;
+  left: -2em;
   animation: bounce-start 1s ease-in-out infinite;
   display: flex;
   flex-direction: column;
@@ -132,7 +132,6 @@ body {
 .rabbit {
   position: absolute;
   cursor: pointer;
-  user-select: none; /*for brave browser(?) */
   min-height: 10%;
   animation: move var(--travel-time) forwards linear, bounce 1s ease-in;
 }
@@ -251,12 +250,18 @@ body {
     top: 50%;
     transform: translate(-50%, -50%);
   }
+
+  #lives img {
+    width: 6em;
+  }
+  
+  #start {
+    top: -6em;
+    left: -1.5em;
+  }
 }
 
 @media (max-width: 300px) {
-  #lives {
-    font-size: 0.75rem;
-  }
   #start {
     font-size: 1rem;
   }
