@@ -19,11 +19,11 @@ export class Game {
   travelTime;  // time for bunnies to leave the screen
   timeLeft;
   timer;
-  bunnyDelays = {}; // it's an object because in an array, either the indexing would be messed up or there would be empty slot after the removal; in the object, the keys don't hav to be in sequence
   countedClicks = 0;
   maxBunnyHeight;
   lowestBunnyPosition; 
   rightmostBunnyPosition;
+  gameOn = false;
 
   constructor() {
     for (let option of Object.keys(gameConfig)) {
@@ -69,6 +69,7 @@ export class Game {
   }
 
   async start() {
+    this.gameOn = true;
     gameElements.countryTable.hidden = true;
     this.timer = setInterval(async () => {
       this.timeLeft = Controls.decreaseTimer(this.timeLeft);
@@ -80,12 +81,8 @@ export class Game {
   }
 
   async end() {
+    this.gameOn = false;
     clearInterval(this.timer);    
-
-    for (let delay of Object.keys(this.bunnyDelays)) {
-      clearTimeout(delay);
-      delete this.bunnyDelays[delay];
-    } 
 
     let images = document.querySelectorAll("img");
     for (let image of images) {
@@ -118,42 +115,39 @@ export class Game {
   }                                               
 
 	addRabbits(number) {
-
-    for (let bunny = 0; bunny < number; bunny++) { 
-      let delay = setTimeout(() => {
-
-        delete this.bunnyDelays[delay];
-
-        let rabbit = new Rabbit();
-        
-        let scalingFactor = Math.random();
-        let height = this.maxBunnyHeight * scalingFactor;
-        let top = this.lowestBunnyPosition * scalingFactor;
-        let left = this.rightmostBunnyPosition * Math.random();
-
-        rabbit.makeSound();
-        rabbit.setHeight(height);
-        rabbit.setPosition(left, top)
-        rabbit.setAppearance(scalingFactor);
-        rabbit.attachTo(gameElements.bunnyspace);
-
-        setTimeout(                                             
-          () => rabbit.detach(),
-          this.travelTime * 1000
-        );
-
-        rabbit.image.addEventListener("mousedown", (event) => {
-          this.addRabbits(this.numberRabbitsGame);
     
-          let shouldFadeOut = true;
-          rabbit.detach(shouldFadeOut);
+      for (let bunny = 0; bunny < number; bunny++) { 
+        setTimeout(() => {
+          if (this.gameOn) {
           
-          this.countedClicks = Controls.incrementBunnyCount(this.countedClicks);
-        });
+          let rabbit = new Rabbit();
+          
+          let scalingFactor = Math.random();
+          let height = this.maxBunnyHeight * scalingFactor;
+          let top = this.lowestBunnyPosition * scalingFactor;
+          let left = this.rightmostBunnyPosition * Math.random();
 
-      }, 200 * bunny);
+          rabbit.makeSound();
+          rabbit.setHeight(height);
+          rabbit.setPosition(left, top)
+          rabbit.setAppearance(scalingFactor);
+          rabbit.attachTo(gameElements.bunnyspace);
+
+          setTimeout(                                             
+            () => rabbit.detach(),
+            this.travelTime * 1000
+          );
+
+          rabbit.image.addEventListener("mousedown", (event) => {
+            this.addRabbits(this.numberRabbitsGame);
       
-      this.bunnyDelays[delay] = delay;
+            let shouldFadeOut = true;
+            rabbit.detach(shouldFadeOut);
+            
+            this.countedClicks = Controls.incrementBunnyCount(this.countedClicks);
+          });
+        }
+      }, 200 * bunny);
     }
   }
 
@@ -162,16 +156,16 @@ export class Game {
 
     gameElements.livesimages.forEach((item) => {
       item.addEventListener("mousedown", (event) => {
-        if (!gameElements.bunnyspace.children.length) {
-          item.remove();    
-          this.addRabbits(this.numberRabbitsStart);  
-        }
-
         if (first) {
           gameElements.start.remove();
           this.start();
           first = false;
-        }        
+        }     
+        
+        if (!gameElements.bunnyspace.children.length) {
+          item.remove();    
+          this.addRabbits(this.numberRabbitsStart);  
+        }
       });
     });
   }
