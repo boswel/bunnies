@@ -61,8 +61,20 @@ export class Rabbit {
     element.appendChild(this.image);
   }
 
-  detach() {  
-    this.image.remove();
+  detach(shouldFadeOut) {  
+    if (shouldFadeOut) {
+      this.image.animate(
+        [{transform: 'scale(1.2, 1.2)'}, {opacity: 0}],  
+        {duration: 100}
+      );
+      
+      setTimeout(                                             
+        () => this.image.remove(), 100 // depends on fade out animation duration
+      );
+    }
+    else {
+      this.image.remove();
+    }
   }
 
   setAppearance(scalingFactor) {
@@ -74,3 +86,6 @@ export class Rabbit {
   }
 
 }
+
+
+

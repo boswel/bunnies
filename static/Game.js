@@ -138,15 +138,16 @@ export class Game {
         rabbit.attachTo(gameElements.bunnyspace);
 
         setTimeout(                                             
-          () => { 
-            rabbit.detach();
-          },
+          () => rabbit.detach(),
           this.travelTime * 1000
         );
 
         rabbit.image.addEventListener("mousedown", (event) => {
           this.addRabbits(this.numberRabbitsGame);
-          rabbit.detach();
+    
+          let shouldFadeOut = true;
+          rabbit.detach(shouldFadeOut);
+          
           this.countedClicks = Controls.incrementBunnyCount(this.countedClicks);
         });
 
