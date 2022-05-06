@@ -152,14 +152,11 @@ export class Game {
   }
 
   makeLives() {
-    let first = true;
-
     gameElements.livesimages.forEach((item) => {
-      item.addEventListener("mousedown", (event) => {
-        if (first) {
+      item.addEventListener("mousedown", () => {
+        if (!this.gameOn) {
           gameElements.start.remove();
           this.start();
-          first = false;
         }     
         
         if (!gameElements.bunnyspace.children.length) {
