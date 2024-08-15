@@ -3,7 +3,7 @@ import psycopg2.extras
 from os import getenv
 
 
-if getenv('DATABASE_URL'):
+if getenv('DATABASE_URL'): # if the database is SQLite
 
     args = [getenv('DATABASE_URL')]
     kwargs = {

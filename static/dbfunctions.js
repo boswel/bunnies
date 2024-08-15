@@ -1,6 +1,12 @@
 export async function getCountryInfo() {
-  return await fetch("https://geolocation-db.com/json/")
+  return await fetch("https://api.ipregistry.co/?key=tryout")
   .then(response => response.json())
+  .then(json => {
+    return {
+      country_name: json.location.country.name,
+      country_code: json.location.country.code
+    }
+  });
 }
 
 export async function getCountryRecords(countryCode) { 

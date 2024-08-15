@@ -38,9 +38,9 @@ export class Game {
     gameElements.ownCountry.innerHTML = "";
     
     Db.getCountryInfo()
-    .then(json => {
-      this.countryName = json.country_name;
-      this.countryCode = json.country_code;
+    .then(data => {
+      this.countryName = data.country_name;
+      this.countryCode = data.country_code;
       return this.countryCode
     })
     .then(countryCode => Db.getCountryRecords(countryCode))
